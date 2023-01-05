@@ -23,9 +23,8 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-    - checkout: self
-      # Checkout code
-    #- uses: actions/checkout@main
+    # Checkout code
+    - uses: actions/checkout@main
 
     # Log into Azure
     - name: Login to Azure
@@ -48,5 +47,3 @@ jobs:
     - name: deploymentlogs
       run: |
         echo "Keyvault_LOGS=$(az deployment group show --name ${{ env.DEPLOYMENT_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --output tsv)" >> $outputFilePath
-
-        
