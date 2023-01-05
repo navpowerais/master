@@ -49,4 +49,4 @@ jobs:
       # Extract deployment output
     - name: deploymentlogs
       run: |
-        echo "Keyvault_LOGS=$(az deployment group show --name ${{ env.DEPLOYMENT_NAME }} --resource-group ${{ env.AZ_RG_NM}} --output tsv)" >> "$outputFilePath"
+        echo "Keyvault_LOGS=$(az deployment group show --name ${{ env.DEPLOYMENT_NAME }} --resource-group ${{ env.AZ_RG_NM}} --output tsv)" >> $GITHUB_WORKSPACE
