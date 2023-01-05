@@ -1,0 +1,52 @@
+# This Workflow will create the Azure Keyvault
+name: azurekeyvaultcreation
+# Controls when the workflow will run
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  # ARM deployment instance name (used to extract outputs)
+  DEPLOYMENT_NAME: GH_CICD_${{ github.run_id }}
+  Bicep_path: ./master/main/AzureIntegration/KeyVault/pipeline/keyvaultcreation.bicep
+  # Setting Github what permissions this workflow needs
+  permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+
+      # Checkout code
+    #- uses: actions/checkout@main
+
+    # Log into Azure
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # Deploy Bicep file
+    - name: Deploy Keyvault Bicep
+      uses: azure/keyvault@v1---------------------------------
+      uses: actions/upload-artifact@v3.1.1
+      with:
+        DEPLOYMENT_NAME: ${{ env.DEPLOYMENT_NAME }}
+        DEPLOYMENT_NAME_ID: ${{ github.run_id }}
+        RESOURCE_GROUP: ${{secrets.AZ_AIS_RG}}
+        subscriptionId: ${{secrets.AZ_SUBSCRIPTION_ID}}
+        bicepBicep_path: ${{  env.bicepfilePath }}
+        outputFilePath: ./output.json
+      # Extract output
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3.1.1
+      with:
+        path: ./output.json
+        
