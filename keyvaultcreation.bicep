@@ -72,9 +72,3 @@ resource kv 'Microsoft.KeyVault/vaults@2022-07-01' = {
     networkAcls: { defaultAction: 'Allow', bypass: 'AzureServices' }
   }
 }
-
-resource secret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = {
-parent:kv
-name: secretName
-properties:{ value: secretValue }
-}
