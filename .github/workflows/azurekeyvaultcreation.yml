@@ -23,7 +23,7 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-
+    - checkout: self
       # Checkout code
     #- uses: actions/checkout@main
 
@@ -36,7 +36,7 @@ jobs:
       # Deploy Bicep file
     - name: Deploy Keyvault Bicep
       run: |
-        az deployment group create --name $DEPLOYMENT_NAME --resource-group $RESOURCE_GROUP --template-file /master/main/AzureIntegration/KeyVault/pipeline/keyvaultcreation.bicep --parameters deploymentNameId=$DEPLOYMENT_NAME_ID resourceNamePrefix=ais
+        az deployment group create --name $DEPLOYMENT_NAME --resource-group $RESOURCE_GROUP --template-file $Bicep_path --parameters deploymentNameId=$DEPLOYMENT_NAME_ID resourceNamePrefix=ais
       env:
         DEPLOYMENT_NAME: ${{ env.DEPLOYMENT_NAME }}
         DEPLOYMENT_NAME_ID: ${{ github.run_id }}
