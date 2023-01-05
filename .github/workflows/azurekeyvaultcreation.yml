@@ -13,7 +13,7 @@ on:
 env:
   # ARM deployment instance name (used to extract outputs)
   DEPLOYMENT_NAME: GH_CICD_${{ github.run_id }}
-  #Bicep_path: ./master/main/AzureIntegration/KeyVault/pipeline/keyvaultcreation.bicep
+  Bicep_path: ./master/main/AzureIntegration/KeyVault/pipeline/keyvaultcreation.bicep
   # Setting Github what permissions this workflow needs
   permissions:
   id-token: write
@@ -35,7 +35,7 @@ jobs:
       # Deploy Bicep file
     - name: Deploy Keyvault Bicep
       run: |
-        az deployment group create --name $DEPLOYMENT_NAME --resource-group $RESOURCE_GROUP --template-file ./master/main/AzureIntegration/KeyVault/pipeline/keyvaultcreation.bicep --parameters vaultName=samplevault keyName=1234 deploymentNameId=$DEPLOYMENT_NAME_ID resourceNamePrefix=ais
+        az deployment group create --name $DEPLOYMENT_NAME --resource-group $RESOURCE_GROUP --template-file ./keyvaultcreation.bicep --parameters vaultName=samplevault keyName=1234 deploymentNameId=$DEPLOYMENT_NAME_ID resourceNamePrefix=ais
       env:
         DEPLOYMENT_NAME: ${{ env.DEPLOYMENT_NAME }}
         DEPLOYMENT_NAME_ID: ${{ github.run_id }}
