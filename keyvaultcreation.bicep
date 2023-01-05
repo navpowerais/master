@@ -38,13 +38,6 @@ param secretsPermissions array = [
 ])
 param skuName string = 'standard'
 
-@description('Specifies the name of the secret that you want to create.')
-param secretName string
-
-@description('Specifies the value of the secret that you want to create.')
-@secure()
-param secretValue string
-
 var vaultname = '${prefix}${uniqueString(resourceGroup().id)}'
 
 resource kv 'Microsoft.KeyVault/vaults@2022-07-01' = {
