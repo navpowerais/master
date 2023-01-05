@@ -35,7 +35,7 @@ jobs:
       # Deploy Bicep file
     - name: Deploy Keyvault Bicep
       run: |
-        az deployment group create --name $DEPLOYMENT_NAME --resource-group $RESOURCE_GROUP --template-file ./keyvaultcreation.bicep --parameters deploymentNameId=$DEPLOYMENT_NAME_ID resourceNamePrefix=ais
+        az deployment group create --name $DEPLOYMENT_NAME --resource-group $RESOURCE_GROUP --template-file ./keyvaultcreation.bicep --parameters prefix=ais
       env:
         DEPLOYMENT_NAME: ${{ env.DEPLOYMENT_NAME }}
         DEPLOYMENT_NAME_ID: ${{ github.run_id }}
