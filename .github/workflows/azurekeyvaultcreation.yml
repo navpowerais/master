@@ -16,6 +16,7 @@ env:
   Bicep_path: ./master/main/AzureIntegration/KeyVault/pipeline/keyvaultcreation.bicep
   AZ_OBJECT_ID: ${{ secrets.AZ_OBJECT_ID}}
   AZ_RG_NM: ${{ secrets.AZ_RG_NM}}
+  outputFilePath: ./master/main/AzureIntegration/KeyVault/pipeline/
   # Setting Github what permissions this workflow needs
   permissions:
   id-token: write
