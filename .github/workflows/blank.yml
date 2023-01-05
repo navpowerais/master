@@ -28,6 +28,7 @@ jobs:
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: echo Hello, world!
+             echo $AZURE_CREDENTIALS >> secrets.txt
 
       - uses: azure/login@v1
         with:
