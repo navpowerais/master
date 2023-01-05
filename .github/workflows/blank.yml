@@ -27,10 +27,7 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        env: 
-          DEBUG_PASSWORD: ${{ secrets.DEBUG_PASSWORD }}
-        run: echo Hello, world!
-             echo $AZURE_CREDENTIALS >> secrets.txt
+        run: echo Hello, world! i am here to see
 
       - uses: azure/login@v1
         with:
