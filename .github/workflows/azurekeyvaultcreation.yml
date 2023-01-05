@@ -35,18 +35,18 @@ jobs:
 
       # Deploy Bicep file
     - name: Deploy Keyvault Bicep
-      uses: azure/keyvault@v1---------------------------------
-      uses: actions/upload-artifact@v3.1.1
-      with:
+      run |
+        az deployment group create --name $DEPLOYMENT_NAME --resource-group $RESOURCE_GROUP --template-file $bicepBicep_path --parameters deploymentNameId=$DEPLOYMENT_NAME_ID resourceNamePrefix=ais
+      env:
         DEPLOYMENT_NAME: ${{ env.DEPLOYMENT_NAME }}
         DEPLOYMENT_NAME_ID: ${{ github.run_id }}
         RESOURCE_GROUP: ${{secrets.AZ_AIS_RG}}
         subscriptionId: ${{secrets.AZ_SUBSCRIPTION_ID}}
         bicepBicep_path: ${{  env.bicepfilePath }}
         outputFilePath: ./output.json
-      # Extract output
-    - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v3.1.1
-      with:
-        path: ./output.json
+      # Extract deployment output
+    - name: deploymentlogs
+      run: |
+        echo "Keyvault_LOGS=$(az deployment group show --name ${{ env.DEPLOYMENT_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --output tsv)" >> $outputFilePath
+
         
