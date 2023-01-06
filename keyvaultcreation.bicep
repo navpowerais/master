@@ -47,21 +47,108 @@ resource kv 'Microsoft.KeyVault/vaults@2022-07-01' = {
     enabledForDeployment: enabledForDeployment
     enabledForDiskEncryption: enabledForDiskEncryption
     enabledForTemplateDeployment: enabledForTemplateDeployment
+    enableSoftDelete: true
+    softDeleteRetentionInDays: 90
     tenantId: tenantId
+    sku: {
+      name: skuName
+      family: 'A'
+    }
     accessPolicies: [
       {
         objectId: objectId
         tenantId: tenantId
         permissions: {
-          keys: keysPermissions
-          secrets: secretsPermissions
+          keys: [
+            'Get'
+            'List'
+            'Update'
+            'Create'
+            'Import'
+            'Delete'
+            'Recover'
+            'Backup'
+            'Restore'
+            'GetRotationPolicy'
+            'SetRotationPolicy'
+            'Rotate'
+          ]
+          secrets: [
+            'Get'
+            'List'
+            'Set'
+            'Delete'
+            'Recover'
+            'Backup'
+            'Restore'
+          ]
+          certificates: [
+            'Get'
+            'List'
+            'Update'
+            'Create'
+            'Import'
+            'Delete'
+            'Recover'
+            'Backup'
+            'Restore'
+            'ManageContacts'
+            'ManageIssuers'
+            'GetIssuers'
+            'ListIssuers'
+            'SetIssuers'
+            'DeleteIssuers'
+          ]
+        }
+      }
+      {
+        tenantId: tenantId
+        objectId: objectId
+        permissions: {
+          certificates: [
+            'Get'
+            'List'
+            'Update'
+            'Create'
+            'Import'
+            'Delete'
+            'Recover'
+            'Backup'
+            'Restore'
+            'ManageContacts'
+            'ManageIssuers'
+            'GetIssuers'
+            'ListIssuers'
+            'SetIssuers'
+            'DeleteIssuers'
+          ]
+          keys: [
+            'Get'
+            'List'
+            'Update'
+            'Create'
+            'Import'
+            'Delete'
+            'Recover'
+            'Backup'
+            'Restore'
+            'GetRotationPolicy'
+            'SetRotationPolicy'
+            'Rotate'
+          ]
+          secrets: [
+            'Get'
+            'List'
+            'Set'
+            'Delete'
+            'Recover'
+            'Backup'
+            'Restore'
+          ]
         }
       }
     ]
-    sku: {
-      name: skuName
-      family: 'A'
-    }
+
     networkAcls: { defaultAction: 'Allow', bypass: 'AzureServices' }
   }
 }
