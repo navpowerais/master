@@ -2,12 +2,11 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json"
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "prefix":{
+        "prefix": {
             "value": "ais"
         },
-        "objectId":{
+        "objectId": {
             "value": "c7806d06-c6b4-49ac-99e7-09cd6feaf209"
         }
     }
-
 }
