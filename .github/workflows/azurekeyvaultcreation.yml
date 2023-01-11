@@ -16,6 +16,7 @@ env:
   Bicep_path: ./master/main/AzureIntegration/KeyVault/pipeline/keyvaultcreation.bicep
   AZ_OBJECT_ID: ${{ secrets.AZ_OBJECT_ID}}
   AZ_RG_NM: ${{ secrets.AZ_RG_NM}}
+  AZ_RGS_NM: "azintegration"
   outputFilePath: ./master/main/AzureIntegration/KeyVault/pipeline/
   # Setting Github what permissions this workflow needs
   permissions:
@@ -47,7 +48,7 @@ jobs:
       uses: azure/deployment-what-if-action@v1.0.0
       with:
         subscriptionId: ${{secrets.AZ_SUBSCRIPTION_ID}}
-        RESOURCE_GROUP: ${{secrets.AZ_AIS_RG}}
+        RESOURCE_GROUP: ${{secrets.AZ_RG_NM}}
         templateFile: ${{  env.Bicep_path }}
           az deployment group what-if --mode Incremental --parameters @parameters.json --resource-group testrg --template-file $Bicep_path
         
