@@ -52,7 +52,7 @@ jobs:
         subscriptionId: ${{secrets.AZ_SUBSCRIPTION_ID}}
         RESOURCE_GROUP: ${{secrets.AZ_RG_NM}}
         templateFile: ${{  env.Bicep_path }}
-          az deployment group what-if --mode Incremental --parameters @parameters.json --resource-group $RESOURCE_GROUP --template-file $Bicep_path
+          #az deployment group what-if --mode Incremental --parameters @parameters.json --resource-group $RESOURCE_GROUP --template-file $Bicep_path
         
 
       # Deploy Bicep file
