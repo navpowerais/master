@@ -1,0 +1,12 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "service_aisapimgr_name": {
+            "value": null
+        },
+        "vaults_aisc6ejnh2dsmkni_name": {
+            "value": null
+        }
+    }
+}

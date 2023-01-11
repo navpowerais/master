@@ -36,9 +36,10 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       # Deploy Bicep file
+      #az deployment group create --name $DEPLOYMENT_NAME --resource-group $RESOURCE_GROUP --template-file ./keyvaultcreation.bicep --parameters prefix=ais objectId=$AZ_OBJECT_ID
     - name: Deploy Keyvault Bicep
       run: |
-        az deployment group create --name $DEPLOYMENT_NAME --resource-group $RESOURCE_GROUP --template-file ./keyvaultcreation.bicep --parameters prefix=ais objectId=$AZ_OBJECT_ID
+        az deployment group create --name $DEPLOYMENT_NAME --resource-group $RESOURCE_GROUP --template-file ./keyvaultcreation.bicep --parameters @parameters.json
       env:
         DEPLOYMENT_NAME: ${{ env.DEPLOYMENT_NAME }}
         DEPLOYMENT_NAME_ID: ${{ github.run_id }}

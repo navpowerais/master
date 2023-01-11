@@ -1,0 +1,2222 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "service_RCL_API_MGT_01_name": {
+            "defaultValue": "RCL-API-MGT-01",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.ApiManagement/service",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[parameters('service_RCL_API_MGT_01_name')]",
+            "location": "UK South",
+            "sku": {
+                "name": "Consumption",
+                "capacity": 0
+            },
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            "properties": {
+                "publisherEmail": "scott.mcdonald@thepowerpeople.com",
+                "publisherName": "RADLEY + CO. LIMITED",
+                "notificationSenderEmail": "apimgmt-noreply@mail.windowsazure.com",
+                "hostnameConfigurations": [
+                    {
+                        "type": "Proxy",
+                        "hostName": "rcl-api-mgt-01.azure-api.net",
+                        "negotiateClientCertificate": false,
+                        "defaultSslBinding": true,
+                        "certificateSource": "BuiltIn"
+                    }
+                ],
+                "customProperties": {
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11": "false",
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10": "false",
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11": "false",
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10": "false",
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Ssl30": "false",
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2": "false"
+                },
+                "virtualNetworkType": "None",
+                "enableClientCertificate": false,
+                "disableGateway": false,
+                "natGatewayState": "Disabled",
+                "apiVersionConstraint": {},
+                "publicNetworkAccess": "Enabled"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef73db3fa3b6178907a65')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "Business Central",
+                "apiRevision": "1",
+                "subscriptionRequired": true,
+                "path": "BC",
+                "protocols": [
+                    "https"
+                ],
+                "authenticationSettings": {
+                    "oAuth2AuthenticationSettings": [],
+                    "openidAuthenticationSettings": []
+                },
+                "subscriptionKeyParameterNames": {
+                    "header": "Ocp-Apim-Subscription-Key",
+                    "query": "subscription-key"
+                },
+                "isCurrent": true
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef772db2349a5ffa53535')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "Chess",
+                "apiRevision": "1",
+                "subscriptionRequired": true,
+                "path": "Chess",
+                "protocols": [
+                    "https"
+                ],
+                "authenticationSettings": {
+                    "oAuth2AuthenticationSettings": [],
+                    "openidAuthenticationSettings": []
+                },
+                "subscriptionKeyParameterNames": {
+                    "header": "Ocp-Apim-Subscription-Key",
+                    "query": "subscription-key"
+                },
+                "isCurrent": true
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef79b4b87e7346516561e')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "PFS",
+                "apiRevision": "1",
+                "subscriptionRequired": true,
+                "path": "PFS",
+                "protocols": [
+                    "https"
+                ],
+                "authenticationSettings": {
+                    "oAuth2AuthenticationSettings": [],
+                    "openidAuthenticationSettings": []
+                },
+                "subscriptionKeyParameterNames": {
+                    "header": "Ocp-Apim-Subscription-Key",
+                    "query": "subscription-key"
+                },
+                "isCurrent": true
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/namedValues",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/chs-adj-topic')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "chs-adj-topic",
+                "value": "chess-adjustment",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/namedValues",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/chs-rpt-conf-topic')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "chs-rpt-conf-topic",
+                "value": "chess-receipt-conf",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/namedValues",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/chs-rtn-ord-conf-topic')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "chs-rtn-ord-conf-topic",
+                "value": "chess-return-order-conf",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/namedValues",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/chs-shp-conf-topic')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "chs-shp-conf-topic",
+                "value": "chess-shipment-conf",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/namedValues",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/chs-tran-rpt-conf-topic')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "chs-tran-rpt-conf-topic",
+                "value": "chess-transfer-receipt-conf",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/namedValues",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/chs-web-rtn-conf-topic')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "chs-web-rtn-conf-topic",
+                "value": "chess-web-return-conf",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/namedValues",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/container-delete-uri')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "container-delete-uri",
+                "value": "/api/o-sy-contdel-bc-3pl-p003/triggers/manual/invoke?api-version=2022-05-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=m4TdMKuTbQ8VJ95xxxBBfLAxXWFM65R7jask8xEjOmQ",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/namedValues",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/container-uri')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "container-uri",
+                "value": "/api/o-sy-cont-bc-3pl-p003/triggers/manual/invoke?api-version=2022-05-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=grgkVPYdEl_lKCNfCsPxST0kMFUa4iPHMzd2YzwjQXo",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/namedValues",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/la-base-url')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "la-base-url",
+                "value": "https://rcl-aisfw-uks-test-la-01.azurewebsites.net:443",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/namedValues",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/pfs-host')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "pfs-host",
+                "value": "httpbin.org",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/namedValues",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/pfs-key')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "pfs-key",
+                "keyVault": {
+                    "secretIdentifier": "https://rcl-uks-kv-01.vault.azure.net/secrets/PFS-Key"
+                },
+                "tags": [],
+                "secret": true
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/namedValues",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/product-topic')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "product-topic",
+                "value": "product",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/namedValues",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/return-order-delete-uri')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "return-order-delete-uri",
+                "value": "/api/o-sy-rtnorddel-bc-3pl-p003/triggers/manual/invoke?api-version=2022-05-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=XpXTzy9D_fhaafPEsdufqsgsYUjVZE_80lGhyLMBcwE",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/namedValues",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/rtn-ord-topic')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "rtn-ord-topic",
+                "value": "return-order",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/namedValues",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/sales-order-delete-uri')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "sales-order-delete-uri",
+                "value": "/api/o-sy-salorddel-bc-3pl-p003/triggers/manual/invoke?api-version=2022-05-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=v8UfoE7HmNoCd0hlNUPdKiLflJiau8kOamUkwZTVhVw",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/namedValues",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/sal-ord-topic')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "sal-ord-topic",
+                "value": "sales-order",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/namedValues",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/sb-base-url')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "sb-base-url",
+                "value": "https://RCL-AISFW-UKS-SERVICEBUS-01.servicebus.windows.net",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/namedValues",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/sb-key-name')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "sb-key-name",
+                "tags": [],
+                "secret": true
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/namedValues",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/sb-key-value')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "sb-key-value",
+                "tags": [],
+                "secret": true
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/namedValues",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/tran-ord-topic')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "tran-ord-topic",
+                "value": "transfer-order",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/namedValues",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/transfer-order-delete-uri')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "transfer-order-delete-uri",
+                "value": "/api/o-sy-trnorddel-bc-3pl-p003/triggers/manual/invoke?api-version=2022-05-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=TtqtxmceAhHWvyShBcRomhjak9JyPFkzKCLMMDXXGmo",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/namedValues",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/trc-asn-topic')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "trc-asn-topic",
+                "value": "truecommerce-asn",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/namedValues",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/trc-inventory-topic')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "trc-inventory-topic",
+                "value": "truecommerce-inventory",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/namedValues",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/trc-invoice-topic')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "trc-invoice-topic",
+                "value": "truecommerce-invoice",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/namedValues",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/trc-po-ack-topic')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "trc-po-ack-topic",
+                "value": "truecommerce-purchase-order-ack",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/policies",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - Only the <forward-request> policy element can appear within the <backend> section element.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy position the cursor at the desired insertion point and click on the round button associated with the policy.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n-->\r\n<policies>\r\n  <inbound></inbound>\r\n  <backend>\r\n    <forward-request />\r\n  </backend>\r\n  <outbound></outbound>\r\n</policies>",
+                "format": "xml"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/policyfragments",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/ContainerHeaderValidation')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy fragment are included as-is whenever they are referenced.\r\n    - If using variables. Ensure they are setup before use.\r\n    - Copy and paste your code here or simply start coding\r\n-->\r\n<fragment>\r\n\t<check-header name=\"Subscription\" failed-check-httpcode=\"406\" failed-check-error-message=\"Subscription header parameter missing or invalid\" ignore-case=\"true\">\r\n\t\t<value>CHESS</value>\r\n\t\t<value>PFS</value>\r\n\t</check-header>\r\n</fragment>"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/policyfragments",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/PFSAuth')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "description": " Compute the signature required for PFS Authentication",
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy fragment are included as-is whenever they are referenced.\r\n    - If using variables. Ensure they are setup before use.\r\n    - Copy and paste your code here or simply start coding\r\n-->\r\n<fragment>\r\n\t<set-variable name=\"pfsKey\" value=\"{{pfs-key}}\" />\r\n\t<set-variable name=\"pfsHost\" value=\"{{pfs-host}}\" />\r\n\t<set-header name=\"Date\" exists-action=\"override\">\r\n\t\t<value>@{\r\n            return DateTime.Today.ToString();\r\n        }\r\n\t\t</value>\r\n\t</set-header>\r\n\t<set-header name=\"User-Agent\" exists-action=\"override\">\r\n\t\t<value>\r\n            Radley-AIS\r\n\t\t</value>\r\n\t</set-header>\r\n\t<set-header name=\"Authorization\" exists-action=\"override\">\r\n\t\t<value>@{\r\n\r\n            string contentType = context.Request.Headers.GetValueOrDefault(\"Content-Type\");\r\n            string userAgent = context.Request.Headers.GetValueOrDefault(\"User-Agent\");\r\n            string date = context.Request.Headers.GetValueOrDefault(\"Date\");\r\n\r\n            string host = (string) context.Variables.GetValueOrDefault(\"pfsHost\");\r\n            string strSecretKey = (string) context.Variables.GetValueOrDefault(\"pfsKey\");\r\n\r\n            string strCanonicalFormHeaders = null;\r\n            strCanonicalFormHeaders = \"n\" + host; \r\n            strCanonicalFormHeaders = strCanonicalFormHeaders + \"\\\\n\" + date; \r\n            strCanonicalFormHeaders = strCanonicalFormHeaders + \"\\\\n\" + userAgent; \r\n            strCanonicalFormHeaders = strCanonicalFormHeaders + \"\\\\n\" + contentType; \r\n   \r\n            string strHeaders = null;\r\n           \r\n            byte[] bytSecretBytes = ASCIIEncoding.ASCII.GetBytes(strSecretKey);\r\n            System.Security.Cryptography.HMACSHA1 hmac = new System.Security.Cryptography.HMACSHA1(bytSecretBytes);\r\n            byte[] bytDataBytes = ASCIIEncoding.ASCII.GetBytes(strCanonicalFormHeaders);\r\n            byte[] bytComputedHash = hmac.ComputeHash(bytDataBytes);\r\n            string strComputedHashString = Convert.ToBase64String(bytComputedHash);\r\n            \r\n            return strComputedHashString;\r\n        }\r\n\t\t</value>\r\n\t</set-header>\r\n</fragment>"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/policyfragments",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/ProductHeaderValidation')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy fragment are included as-is whenever they are referenced.\r\n    - If using variables. Ensure they are setup before use.\r\n    - Copy and paste your code here or simply start coding\r\n-->\r\n<fragment>\r\n\t<check-header name=\"Subscription\" failed-check-httpcode=\"406\" failed-check-error-message=\"Subscription header parameter missing or invalid\" ignore-case=\"true\">\r\n\t\t<value>CHESS</value>\r\n\t\t<value>PFS</value>\r\n\t\t<value>PIM</value>\r\n\t</check-header>\r\n</fragment>"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/policyfragments",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/SalesOrderHeaderValidation')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy fragment are included as-is whenever they are referenced.\r\n    - If using variables. Ensure they are setup before use.\r\n    - Copy and paste your code here or simply start coding\r\n-->\r\n<fragment>\r\n\t<check-header name=\"Subscription\" failed-check-httpcode=\"406\" failed-check-error-message=\"Subscription header parameter missing or invalid\" ignore-case=\"true\">\r\n\t\t<value>CHESS</value>\r\n\t\t<value>PFS</value>\r\n\t</check-header>\r\n</fragment>"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/policyfragments",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/SalesReturnHeaderValidation')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy fragment are included as-is whenever they are referenced.\r\n    - If using variables. Ensure they are setup before use.\r\n    - Copy and paste your code here or simply start coding\r\n-->\r\n<fragment>\r\n\t<check-header name=\"Subscription\" failed-check-httpcode=\"406\" failed-check-error-message=\"Subscription header parameter missing or invalid\" ignore-case=\"true\">\r\n\t\t<value>CHESS</value>\r\n\t\t<value>PFS</value>\r\n\t</check-header>\r\n</fragment>"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/policyfragments",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/ServiceBusAuth')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy fragment are included as-is whenever they are referenced.\r\n    - If using variables. Ensure they are setup before use.\r\n    - Copy and paste your code here or simply start coding\r\n-->\r\n<fragment>\r\n\t<set-backend-service base-url=\"{{sb-base-url}}\" />\r\n\t<set-variable name=\"sasKeyName\" value=\"{{sb-key-name}}\" />\r\n\t<set-variable name=\"sasKey\" value=\"{{sb-key-value}}\" />\r\n\t<set-header name=\"Authorization\" exists-action=\"override\">\r\n\t\t<value>@{\r\n                string resourceUri = (string) context.Variables.GetValueOrDefault(\"resourceUri\");\r\n                string sasKeyName = (string) context.Variables.GetValueOrDefault(\"sasKeyName\");\r\n                string sasKey = (string) context.Variables.GetValueOrDefault(\"sasKey\");\r\n                \r\n\r\n                //set the token lifespan\r\n                System.TimeSpan sinceEpoch = System.DateTime.UtcNow.Subtract(new System.DateTime(1970, 1, 1));\r\n                var expiry = System.Convert.ToString((int)sinceEpoch.TotalSeconds + 60); //1 minute\r\n                string stringToSign = System.Uri.EscapeDataString(resourceUri) + \"\\n\" + expiry;\r\n                System.Security.Cryptography.HMACSHA256 hmac = new System.Security.Cryptography.HMACSHA256(System.Text.Encoding.UTF8.GetBytes(sasKey));\r\n                var signature = System.Convert.ToBase64String(hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(stringToSign)));\r\n\r\n                //format the sas token\r\n                var sasToken = String.Format(\"SharedAccessSignature sr={0}&amp;sig={1}&amp;se={2}&amp;skn={3}\",\r\n                System.Uri.EscapeDataString(resourceUri), System.Uri.EscapeDataString(signature), expiry, sasKeyName);\r\n                return sasToken;\r\n            }</value>\r\n\t</set-header>\r\n</fragment>"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/policyfragments",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/TransferOrderHeaderValidation')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy fragment are included as-is whenever they are referenced.\r\n    - If using variables. Ensure they are setup before use.\r\n    - Copy and paste your code here or simply start coding\r\n-->\r\n<fragment>\r\n\t<check-header name=\"Subscription\" failed-check-httpcode=\"406\" failed-check-error-message=\"Subscription header parameter missing or invalid\" ignore-case=\"true\">\r\n\t\t<value>CHESS</value>\r\n\t\t<value>PFS</value>\r\n\t</check-header>\r\n</fragment>"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/chs-adj-topic')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "chs-adj-topic",
+                "value": "chess-adjustment",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/chs-rpt-conf-topic')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "chs-rpt-conf-topic",
+                "value": "chess-receipt-conf",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/chs-rtn-ord-conf-topic')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "chs-rtn-ord-conf-topic",
+                "value": "chess-return-order-conf",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/chs-shp-conf-topic')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "chs-shp-conf-topic",
+                "value": "chess-shipment-conf",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/chs-tran-rpt-conf-topic')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "chs-tran-rpt-conf-topic",
+                "value": "chess-transfer-receipt-conf",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/chs-web-rtn-conf-topic')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "chs-web-rtn-conf-topic",
+                "value": "chess-web-return-conf",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/container-delete-uri')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "container-delete-uri",
+                "value": "/api/o-sy-contdel-bc-3pl-p003/triggers/manual/invoke?api-version=2022-05-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=m4TdMKuTbQ8VJ95xxxBBfLAxXWFM65R7jask8xEjOmQ",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/container-uri')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "container-uri",
+                "value": "/api/o-sy-cont-bc-3pl-p003/triggers/manual/invoke?api-version=2022-05-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=grgkVPYdEl_lKCNfCsPxST0kMFUa4iPHMzd2YzwjQXo",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/la-base-url')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "la-base-url",
+                "value": "https://rcl-aisfw-uks-test-la-01.azurewebsites.net:443",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/pfs-host')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "pfs-host",
+                "value": "httpbin.org",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/product-topic')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "product-topic",
+                "value": "product",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/return-order-delete-uri')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "return-order-delete-uri",
+                "value": "/api/o-sy-rtnorddel-bc-3pl-p003/triggers/manual/invoke?api-version=2022-05-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=XpXTzy9D_fhaafPEsdufqsgsYUjVZE_80lGhyLMBcwE",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/rtn-ord-topic')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "rtn-ord-topic",
+                "value": "return-order",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/sales-order-delete-uri')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "sales-order-delete-uri",
+                "value": "/api/o-sy-salorddel-bc-3pl-p003/triggers/manual/invoke?api-version=2022-05-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=v8UfoE7HmNoCd0hlNUPdKiLflJiau8kOamUkwZTVhVw",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/sal-ord-topic')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "sal-ord-topic",
+                "value": "sales-order",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/sb-base-url')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "sb-base-url",
+                "value": "https://RCL-AISFW-UKS-SERVICEBUS-01.servicebus.windows.net",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/sb-key-name')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "sb-key-name",
+                "value": "APIMgtSend",
+                "tags": [],
+                "secret": true
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/sb-key-value')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "sb-key-value",
+                "value": "uNNMM5HqWFg2/2f7bAUsHa75w5Lg5w5Or72y6vQkFWM=",
+                "tags": [],
+                "secret": true
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/tran-ord-topic')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "tran-ord-topic",
+                "value": "transfer-order",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/transfer-order-delete-uri')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "transfer-order-delete-uri",
+                "value": "/api/o-sy-trnorddel-bc-3pl-p003/triggers/manual/invoke?api-version=2022-05-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=TtqtxmceAhHWvyShBcRomhjak9JyPFkzKCLMMDXXGmo",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/trc-asn-topic')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "trc-asn-topic",
+                "value": "truecommerce-asn",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/trc-inventory-topic')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "trc-inventory-topic",
+                "value": "truecommerce-inventory",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/trc-invoice-topic')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "trc-invoice-topic",
+                "value": "truecommerce-invoice",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/trc-po-ack-topic')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "trc-po-ack-topic",
+                "value": "truecommerce-purchase-order-ack",
+                "tags": [],
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/schemas",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/Adjustments')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "schemaType": "json",
+                "document": {}
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/schemas",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/Container')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "schemaType": "json",
+                "document": {}
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/schemas",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/Product')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "schemaType": "json",
+                "document": {}
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/schemas",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/ReceiptConfirmation')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "schemaType": "json",
+                "document": {}
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/schemas",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/Reconciliation')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "schemaType": "json",
+                "document": {}
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/schemas",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/ReturnOrder')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "schemaType": "json",
+                "document": {}
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/schemas",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/ReturnOrderConf')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "schemaType": "json",
+                "document": {}
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/schemas",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/SalesOrder')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "schemaType": "json",
+                "document": {}
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/schemas",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/ShipmentConfirmation')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "schemaType": "json",
+                "document": {}
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/schemas",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/TransferOrder')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "schemaType": "json",
+                "document": {}
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/schemas",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/TransferReceiptConfirmation')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "schemaType": "json",
+                "document": {}
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/schemas",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/TrueCommerce-ASN')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "schemaType": "json",
+                "document": {}
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/schemas",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/TrueCommerce-Inventory')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "schemaType": "json",
+                "document": {}
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/schemas",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/TrueCommerce-Invoice')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "schemaType": "json",
+                "document": {}
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/schemas",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/TrueCommerce-PurchaseOrderAcknowledgement')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "schemaType": "json",
+                "document": {}
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/schemas",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/WebReturnConfirmation')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "schemaType": "json",
+                "document": {}
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/subscriptions",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/master')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "scope": "[concat(resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name')), '/')]",
+                "displayName": "Built-in all-access subscription",
+                "state": "active",
+                "allowTracing": true
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef73db3fa3b6178907a65/63aef73e0b23d9054d1b56da')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "Sales Order Delete",
+                "method": "POST",
+                "urlTemplate": "/sales-order-delete",
+                "templateParameters": [],
+                "request": {
+                    "queryParameters": [],
+                    "headers": [],
+                    "representations": [
+                        {
+                            "contentType": "application/json",
+                            "examples": {
+                                "default": {
+                                    "value": {}
+                                }
+                            },
+                            "schemaId": "1667839665539",
+                            "typeName": "Sales Order"
+                        }
+                    ]
+                },
+                "responses": []
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef73db3fa3b6178907a65/63aef73e31127b46417c83ba')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "TRC PO Ack",
+                "method": "POST",
+                "urlTemplate": "/truecommerce-purchase-order-ack",
+                "templateParameters": [],
+                "request": {
+                    "queryParameters": [],
+                    "headers": [],
+                    "representations": [
+                        {
+                            "contentType": "application/json",
+                            "examples": {
+                                "default": {
+                                    "value": {}
+                                }
+                            },
+                            "schemaId": "1667839665539",
+                            "typeName": "TRC Purchase Order Ack"
+                        }
+                    ]
+                },
+                "responses": []
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef73db3fa3b6178907a65/63aef73e4453286767cedcbd')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "TRC Invoice",
+                "method": "POST",
+                "urlTemplate": "/truecommerce-invoice",
+                "templateParameters": [],
+                "request": {
+                    "queryParameters": [],
+                    "headers": [],
+                    "representations": [
+                        {
+                            "contentType": "application/json",
+                            "examples": {
+                                "default": {
+                                    "value": {}
+                                }
+                            },
+                            "schemaId": "1667839665539",
+                            "typeName": "TRC Invoice"
+                        }
+                    ]
+                },
+                "responses": []
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef73db3fa3b6178907a65/63aef73e73c11aa8907ef226')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "Sales Order",
+                "method": "POST",
+                "urlTemplate": "/sales-order",
+                "templateParameters": [],
+                "description": "Post Sales Order to Chess",
+                "request": {
+                    "queryParameters": [],
+                    "headers": [],
+                    "representations": [
+                        {
+                            "contentType": "application/json",
+                            "examples": {
+                                "default": {
+                                    "value": {}
+                                }
+                            },
+                            "schemaId": "1667839665539",
+                            "typeName": "Sales Order"
+                        }
+                    ]
+                },
+                "responses": []
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef73db3fa3b6178907a65/63aef73e9ab47ca95972329e')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "Sales Return Order",
+                "method": "POST",
+                "urlTemplate": "/sales-return-order",
+                "templateParameters": [],
+                "request": {
+                    "queryParameters": [],
+                    "headers": [],
+                    "representations": [
+                        {
+                            "contentType": "application/json",
+                            "examples": {
+                                "default": {
+                                    "value": {}
+                                }
+                            },
+                            "schemaId": "1667839665539",
+                            "typeName": "Return Order"
+                        }
+                    ]
+                },
+                "responses": []
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef73db3fa3b6178907a65/63aef73ea51caba914eeaf41')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "Container",
+                "method": "POST",
+                "urlTemplate": "/container",
+                "templateParameters": [],
+                "description": "Post Container to Chess",
+                "request": {
+                    "queryParameters": [],
+                    "headers": [],
+                    "representations": [
+                        {
+                            "contentType": "application/json",
+                            "examples": {
+                                "default": {
+                                    "value": {}
+                                }
+                            },
+                            "schemaId": "1667839665539",
+                            "typeName": "Container"
+                        }
+                    ]
+                },
+                "responses": []
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef73db3fa3b6178907a65/63aef73ea740f563e413f5f1')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "Transfer Order Delete",
+                "method": "POST",
+                "urlTemplate": "/transfer-order-delete",
+                "templateParameters": [],
+                "request": {
+                    "queryParameters": [],
+                    "headers": [],
+                    "representations": [
+                        {
+                            "contentType": "application/json",
+                            "examples": {
+                                "default": {
+                                    "value": {}
+                                }
+                            },
+                            "schemaId": "1667839665539",
+                            "typeName": "Transfer Order"
+                        }
+                    ]
+                },
+                "responses": []
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef73db3fa3b6178907a65/63aef73eb378c7ad35f8d977')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "TRC ASN",
+                "method": "POST",
+                "urlTemplate": "/truecommerce-asn",
+                "templateParameters": [],
+                "request": {
+                    "queryParameters": [],
+                    "headers": [],
+                    "representations": [
+                        {
+                            "contentType": "application/json",
+                            "examples": {
+                                "default": {
+                                    "value": {}
+                                }
+                            },
+                            "schemaId": "1667839665539",
+                            "typeName": "TRC ASN"
+                        }
+                    ]
+                },
+                "responses": []
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef73db3fa3b6178907a65/63aef73eb5f3078e1343ea0d')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "Product",
+                "method": "POST",
+                "urlTemplate": "/product",
+                "templateParameters": [],
+                "description": "Post Product to Chess",
+                "request": {
+                    "queryParameters": [],
+                    "headers": [],
+                    "representations": [
+                        {
+                            "contentType": "application/json",
+                            "examples": {
+                                "default": {
+                                    "value": {}
+                                }
+                            },
+                            "schemaId": "1667839665539",
+                            "typeName": "Product"
+                        }
+                    ]
+                },
+                "responses": []
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef73db3fa3b6178907a65/63aef73ed6994104974d831f')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "TRC Inventory",
+                "method": "POST",
+                "urlTemplate": "/truecommerce-inventory",
+                "templateParameters": [],
+                "request": {
+                    "queryParameters": [],
+                    "headers": [],
+                    "representations": [
+                        {
+                            "contentType": "application/json",
+                            "examples": {
+                                "default": {
+                                    "value": {}
+                                }
+                            },
+                            "schemaId": "1667839665539",
+                            "typeName": "TRC Inventory"
+                        }
+                    ]
+                },
+                "responses": []
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef73db3fa3b6178907a65/63aef73eda75951fd9c65a94')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "Container Delete",
+                "method": "POST",
+                "urlTemplate": "/container-delete",
+                "templateParameters": [],
+                "request": {
+                    "queryParameters": [],
+                    "headers": [],
+                    "representations": [
+                        {
+                            "contentType": "application/json",
+                            "examples": {
+                                "default": {
+                                    "value": {}
+                                }
+                            },
+                            "schemaId": "1667839665539",
+                            "typeName": "Container"
+                        }
+                    ]
+                },
+                "responses": []
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef73db3fa3b6178907a65/63aef73edd5fa430dc94d9ff')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "Sales Return Order Delete",
+                "method": "POST",
+                "urlTemplate": "/sales-return-order-delete",
+                "templateParameters": [],
+                "request": {
+                    "queryParameters": [],
+                    "headers": [],
+                    "representations": [
+                        {
+                            "contentType": "application/json",
+                            "examples": {
+                                "default": {
+                                    "value": {}
+                                }
+                            },
+                            "schemaId": "1667839665539",
+                            "typeName": "Return Order"
+                        }
+                    ]
+                },
+                "responses": []
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef73db3fa3b6178907a65/63aef73efbeb377c43f17e8f')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "Transfer Order",
+                "method": "POST",
+                "urlTemplate": "/transfer-order",
+                "templateParameters": [],
+                "description": "Post transfer order to chess",
+                "request": {
+                    "queryParameters": [],
+                    "headers": [],
+                    "representations": [
+                        {
+                            "contentType": "application/json",
+                            "examples": {
+                                "default": {
+                                    "value": {}
+                                }
+                            },
+                            "schemaId": "1667839665539",
+                            "typeName": "Transfer Order"
+                        }
+                    ]
+                },
+                "responses": []
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef772db2349a5ffa53535/63aef773456e608d66442469')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef772db2349a5ffa53535')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "Receipt Confirmation",
+                "method": "POST",
+                "urlTemplate": "/receipt-confirmation",
+                "templateParameters": [],
+                "description": "Chess - Post Receipt Confirmation",
+                "request": {
+                    "queryParameters": [],
+                    "headers": [],
+                    "representations": [
+                        {
+                            "contentType": "application/json",
+                            "examples": {
+                                "default": {
+                                    "value": {}
+                                }
+                            },
+                            "schemaId": "1667832697794",
+                            "typeName": "receipt confirmation"
+                        }
+                    ]
+                },
+                "responses": []
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef772db2349a5ffa53535/63aef773792fe7c35a7b3942')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef772db2349a5ffa53535')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "Web Return Confirmation",
+                "method": "POST",
+                "urlTemplate": "/web-return-confirmation",
+                "templateParameters": [],
+                "description": "Chess - Post Web Return Confirmation",
+                "request": {
+                    "queryParameters": [],
+                    "headers": [],
+                    "representations": [
+                        {
+                            "contentType": "application/json",
+                            "examples": {
+                                "default": {
+                                    "value": [
+                                        {
+                                            "receipt_advice_number": "WEB123",
+                                            "line_number": 10000,
+                                            "product_code": "ITEM1234",
+                                            "quantity_received": 5,
+                                            "receipt_date": "20/01/2022",
+                                            "status": "Hold"
+                                        }
+                                    ]
+                                }
+                            },
+                            "schemaId": "1667832697794",
+                            "typeName": "web return confirmation"
+                        }
+                    ]
+                },
+                "responses": []
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef772db2349a5ffa53535/63aef773a4015571c94e4051')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef772db2349a5ffa53535')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "Shipment Confirmation",
+                "method": "POST",
+                "urlTemplate": "/shipment-confirmation",
+                "templateParameters": [],
+                "description": "Chess - Post Shipment Confirmation to business central",
+                "request": {
+                    "queryParameters": [],
+                    "headers": [],
+                    "representations": [
+                        {
+                            "contentType": "application/json",
+                            "examples": {
+                                "default": {
+                                    "value": "{\r\n    {\r\n        \"order_number\": \"SH12345\",\r\n        \"despatch_date\": \"20/10/2022\",\r\n        \"shipment_line\":[\r\n            {\r\n                \"line_number\": 1000,\r\n                \"product_code\": \"ITEM12345\",\r\n                \"quantity_shipped\": 6,\r\n                \"carrier\": \"AGENT1\",\r\n                \"service_code\": \"SERVICE1\",\r\n                \"tracking_id\": \"TRACK1234\"\r\n            }\r\n        ]\r\n    }\r\n}"
+                                }
+                            },
+                            "schemaId": "1667832697794",
+                            "typeName": "shipment confirmataion"
+                        }
+                    ]
+                },
+                "responses": []
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef772db2349a5ffa53535/63aef773e9103c105e591a81')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef772db2349a5ffa53535')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "Sales Return Confirmation",
+                "method": "POST",
+                "urlTemplate": "/sales-return-confirmation",
+                "templateParameters": [],
+                "request": {
+                    "queryParameters": [],
+                    "headers": [],
+                    "representations": [
+                        {
+                            "contentType": "application/json",
+                            "examples": {
+                                "default": {
+                                    "value": {}
+                                }
+                            },
+                            "schemaId": "1667832697794",
+                            "typeName": "sales return confirmation"
+                        }
+                    ]
+                },
+                "responses": []
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef772db2349a5ffa53535/63aef773f1f579f74ca5d817')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef772db2349a5ffa53535')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "Transfer Receipt Confirmation",
+                "method": "POST",
+                "urlTemplate": "/transfer-receipt-confirmation",
+                "templateParameters": [],
+                "request": {
+                    "queryParameters": [],
+                    "headers": [],
+                    "representations": [
+                        {
+                            "contentType": "application/json",
+                            "examples": {
+                                "default": {
+                                    "value": [
+                                        {
+                                            "purchase_order_number": "TO123456",
+                                            "line_number": 10000,
+                                            "product_code": "ITEM12345",
+                                            "quantity_received": 5,
+                                            "receipt_date": "20/05/2022",
+                                            "status": "Hold"
+                                        }
+                                    ]
+                                }
+                            },
+                            "schemaId": "1667832697794",
+                            "typeName": "transfer receipt confirmation"
+                        }
+                    ]
+                },
+                "responses": []
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef772db2349a5ffa53535/63aef773fff545e3fb8c4a8a')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef772db2349a5ffa53535')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "Adjustment",
+                "method": "POST",
+                "urlTemplate": "/Adjustment",
+                "templateParameters": [],
+                "request": {
+                    "queryParameters": [],
+                    "headers": [],
+                    "representations": [
+                        {
+                            "contentType": "application/json",
+                            "examples": {
+                                "default": {
+                                    "value": [
+                                        {
+                                            "product_code": "ITEM0001",
+                                            "adjustment_date": "20/01/2022",
+                                            "adjusted_quantity": 2,
+                                            "adjustment_reason_code": "Damaged",
+                                            "stock_status": "01",
+                                            "adjustment_reference": "PO123456",
+                                            "PO Number": "PO123456",
+                                            "PO Line Number": "PO123456"
+                                        }
+                                    ]
+                                }
+                            },
+                            "schemaId": "1667832697794",
+                            "typeName": "adjustments"
+                        }
+                    ]
+                },
+                "responses": []
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef79b4b87e7346516561e/63aef79c067c661516243f76')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef79b4b87e7346516561e')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "Sales Return Confirmation",
+                "method": "POST",
+                "urlTemplate": "/sales-return-confirmation",
+                "templateParameters": [],
+                "responses": []
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef79b4b87e7346516561e/63aef79c2b81672b58e00c32')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef79b4b87e7346516561e')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "Order Acknowledgement",
+                "method": "POST",
+                "urlTemplate": "/order-acknowledgement",
+                "templateParameters": [],
+                "responses": []
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef79b4b87e7346516561e/63aef79c39f261aaa5111c15')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef79b4b87e7346516561e')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "Shipment Confirmation",
+                "method": "POST",
+                "urlTemplate": "/shipment-confirmation",
+                "templateParameters": [],
+                "responses": []
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef79b4b87e7346516561e/63aef79c9af75a2d6dc00eae')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef79b4b87e7346516561e')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "Inventory Snapshot",
+                "method": "POST",
+                "urlTemplate": "/inventory-snapshot",
+                "templateParameters": [],
+                "responses": []
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef79b4b87e7346516561e/63aef79c9ba5ad4996252f46')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef79b4b87e7346516561e')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "Outbound to PFS",
+                "method": "POST",
+                "urlTemplate": "/Outbound-PFS",
+                "templateParameters": [],
+                "description": "PFS Logic app workflows post to this endpoint where the authorization header is generated and added as a header before forwarding on to PFS",
+                "responses": []
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef79b4b87e7346516561e/63aef79caaf6a908ddf53c30')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef79b4b87e7346516561e')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "Adjustments",
+                "method": "POST",
+                "urlTemplate": "/adjustments",
+                "templateParameters": [],
+                "responses": []
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef79b4b87e7346516561e/63aef79cb2d143551eb3635b')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef79b4b87e7346516561e')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "displayName": "Receipt Confirmation",
+                "method": "POST",
+                "urlTemplate": "/receipt-confirmation",
+                "templateParameters": [],
+                "responses": []
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/schemas",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef772db2349a5ffa53535/1667832697794')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef772db2349a5ffa53535')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "contentType": "application/vnd.oai.openapi.components+json",
+                "document": {}
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/schemas",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef73db3fa3b6178907a65/1667839665539')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "contentType": "application/vnd.oai.openapi.components+json",
+                "document": {}
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/subscriptions",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/BusinessCentral')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]",
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65')]"
+            ],
+            "properties": {
+                "scope": "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65')]",
+                "displayName": "BusinessCentral",
+                "state": "active",
+                "allowTracing": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/subscriptions",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/Chess')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]",
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef772db2349a5ffa53535')]"
+            ],
+            "properties": {
+                "scope": "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef772db2349a5ffa53535')]",
+                "displayName": "Chess",
+                "state": "active",
+                "allowTracing": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/subscriptions",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/PFS')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]",
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef79b4b87e7346516561e')]"
+            ],
+            "properties": {
+                "scope": "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef79b4b87e7346516561e')]",
+                "displayName": "PFS",
+                "state": "active",
+                "allowTracing": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef73db3fa3b6178907a65/63aef73e0b23d9054d1b56da/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65', '63aef73e0b23d9054d1b56da')]",
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\r\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\r\n-->\r\n<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-header name=\"Content-Type\" exists-action=\"override\">\r\n      <value>application/json</value>\r\n    </set-header>\r\n    <include-fragment fragment-id=\"SalesOrderHeaderValidation\" />\r\n    <set-backend-service base-url=\"{{la-base-url}}\" />\r\n    <rewrite-uri template=\"{{sales-order-delete-uri}}\" copy-unmatched-params=\"true\" />\r\n    <validate-content unspecified-content-type-action=\"ignore\" max-size=\"512\" size-exceeded-action=\"ignore\" errors-variable-name=\"validationErrors\">\r\n      <content type=\"application/json\" validate-as=\"json\" action=\"prevent\" schema-id=\"SalesOrder\" />\r\n    </validate-content>\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>",
+                "format": "xml"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef73db3fa3b6178907a65/63aef73e31127b46417c83ba/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65', '63aef73e31127b46417c83ba')]",
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\r\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\r\n-->\r\n<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-header name=\"Content-Type\" exists-action=\"override\">\r\n      <value>application/xml</value>\r\n    </set-header>\r\n    <set-variable name=\"resourceUri\" value=\"{{sb-base-url}}/{{trc-po-ack-topic}}/messages\" />\r\n    <include-fragment fragment-id=\"ServiceBusAuth\" />\r\n    <rewrite-uri template=\"/{{trc-po-ack-topic}}/messages\" copy-unmatched-params=\"true\" />\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>",
+                "format": "xml"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef73db3fa3b6178907a65/63aef73e4453286767cedcbd/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65', '63aef73e4453286767cedcbd')]",
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\r\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\r\n-->\r\n<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-header name=\"Content-Type\" exists-action=\"override\">\r\n      <value>application/xml</value>\r\n    </set-header>\r\n    <set-variable name=\"resourceUri\" value=\"{{sb-base-url}}/{{trc-invoice-topic}}/messages\" />\r\n    <include-fragment fragment-id=\"ServiceBusAuth\" />\r\n    <rewrite-uri template=\"/{{trc-invoice-topic}}/messages\" copy-unmatched-params=\"true\" />\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>",
+                "format": "xml"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef73db3fa3b6178907a65/63aef73e73c11aa8907ef226/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65', '63aef73e73c11aa8907ef226')]",
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\r\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\r\n-->\r\n<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-header name=\"Content-Type\" exists-action=\"override\">\r\n      <value>application/json</value>\r\n    </set-header>\r\n    <include-fragment fragment-id=\"SalesOrderHeaderValidation\" />\r\n    <set-variable name=\"resourceUri\" value=\"{{sb-base-url}}/{{sal-ord-topic}}/messages\" />\r\n    <include-fragment fragment-id=\"ServiceBusAuth\" />\r\n    <rewrite-uri template=\"/{{sal-ord-topic}}/messages\" copy-unmatched-params=\"true\" />\r\n    <validate-content unspecified-content-type-action=\"ignore\" max-size=\"512\" size-exceeded-action=\"ignore\" errors-variable-name=\"validationErrors\">\r\n      <content type=\"application/json\" validate-as=\"json\" action=\"prevent\" schema-id=\"SalesOrder\" />\r\n    </validate-content>\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>",
+                "format": "xml"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef73db3fa3b6178907a65/63aef73e9ab47ca95972329e/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65', '63aef73e9ab47ca95972329e')]",
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\r\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\r\n-->\r\n<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-header name=\"Content-Type\" exists-action=\"override\">\r\n      <value>application/json</value>\r\n    </set-header>\r\n    <include-fragment fragment-id=\"SalesReturnHeaderValidation\" />\r\n    <set-variable name=\"resourceUri\" value=\"{{sb-base-url}}/{{rtn-ord-topic}}/messages\" />\r\n    <include-fragment fragment-id=\"ServiceBusAuth\" />\r\n    <rewrite-uri template=\"/{{rtn-ord-topic}}/messages\" copy-unmatched-params=\"true\" />\r\n    <validate-content unspecified-content-type-action=\"ignore\" max-size=\"512\" size-exceeded-action=\"ignore\" errors-variable-name=\"validationErrors\">\r\n      <content type=\"application/json\" validate-as=\"json\" action=\"prevent\" schema-id=\"ReturnOrder\" />\r\n    </validate-content>\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>",
+                "format": "xml"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef73db3fa3b6178907a65/63aef73ea51caba914eeaf41/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65', '63aef73ea51caba914eeaf41')]",
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\r\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\r\n-->\r\n<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-header name=\"Content-Type\" exists-action=\"override\">\r\n      <value>application/json</value>\r\n    </set-header>\r\n    <include-fragment fragment-id=\"ContainerHeaderValidation\" />\r\n    <set-backend-service base-url=\"{{la-base-url}}\" />\r\n    <rewrite-uri template=\"{{container-uri}}\" copy-unmatched-params=\"true\" />\r\n    <validate-content unspecified-content-type-action=\"ignore\" max-size=\"512\" size-exceeded-action=\"ignore\" errors-variable-name=\"validationErrors\">\r\n      <content type=\"application/json\" validate-as=\"json\" action=\"prevent\" schema-id=\"Container\" />\r\n    </validate-content>\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>",
+                "format": "xml"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef73db3fa3b6178907a65/63aef73ea740f563e413f5f1/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65', '63aef73ea740f563e413f5f1')]",
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\r\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\r\n-->\r\n<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-header name=\"Content-Type\" exists-action=\"override\">\r\n      <value>application/json</value>\r\n    </set-header>\r\n    <include-fragment fragment-id=\"TransferOrderHeaderValidation\" />\r\n    <set-backend-service base-url=\"{{la-base-url}}\" />\r\n    <rewrite-uri template=\"{{transfer-order-delete-uri}}\" copy-unmatched-params=\"true\" />\r\n    <validate-content unspecified-content-type-action=\"ignore\" max-size=\"512\" size-exceeded-action=\"ignore\" errors-variable-name=\"validationErrors\">\r\n      <content type=\"application/json\" validate-as=\"json\" action=\"prevent\" schema-id=\"TransferOrder\" />\r\n    </validate-content>\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>",
+                "format": "xml"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef73db3fa3b6178907a65/63aef73eb378c7ad35f8d977/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65', '63aef73eb378c7ad35f8d977')]",
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\r\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\r\n-->\r\n<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-header name=\"Content-Type\" exists-action=\"override\">\r\n      <value>application/xml</value>\r\n    </set-header>\r\n    <set-variable name=\"resourceUri\" value=\"{{sb-base-url}}/{{trc-asn-topic}}/messages\" />\r\n    <include-fragment fragment-id=\"ServiceBusAuth\" />\r\n    <rewrite-uri template=\"/{{trc-asn-topic}}/messages\" copy-unmatched-params=\"true\" />\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>",
+                "format": "xml"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef73db3fa3b6178907a65/63aef73eb5f3078e1343ea0d/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65', '63aef73eb5f3078e1343ea0d')]",
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\r\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\r\n-->\r\n<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-header name=\"Content-Type\" exists-action=\"override\">\r\n      <value>application/json</value>\r\n    </set-header>\r\n    <include-fragment fragment-id=\"ProductHeaderValidation\" />\r\n    <set-variable name=\"resourceUri\" value=\"{{sb-base-url}}/{{product-topic}}/messages\" />\r\n    <include-fragment fragment-id=\"ServiceBusAuth\" />\r\n    <rewrite-uri template=\"/{{product-topic}}/messages\" copy-unmatched-params=\"true\" />\r\n    <validate-content unspecified-content-type-action=\"ignore\" max-size=\"512\" size-exceeded-action=\"ignore\" errors-variable-name=\"validationErrors\">\r\n      <content type=\"application/json\" validate-as=\"json\" action=\"prevent\" schema-id=\"Product\" />\r\n    </validate-content>\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>",
+                "format": "xml"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef73db3fa3b6178907a65/63aef73ed6994104974d831f/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65', '63aef73ed6994104974d831f')]",
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\r\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\r\n-->\r\n<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-header name=\"Content-Type\" exists-action=\"override\">\r\n      <value>application/xml</value>\r\n    </set-header>\r\n    <set-variable name=\"resourceUri\" value=\"{{sb-base-url}}/{{trc-inventory-topic}}/messages\" />\r\n    <include-fragment fragment-id=\"ServiceBusAuth\" />\r\n    <rewrite-uri template=\"/{{trc-inventory-topic}}/messages\" copy-unmatched-params=\"true\" />\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>",
+                "format": "xml"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef73db3fa3b6178907a65/63aef73eda75951fd9c65a94/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65', '63aef73eda75951fd9c65a94')]",
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\r\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\r\n-->\r\n<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-header name=\"Content-Type\" exists-action=\"override\">\r\n      <value>application/json</value>\r\n    </set-header>\r\n    <include-fragment fragment-id=\"ContainerHeaderValidation\" />\r\n    <set-backend-service base-url=\"{{la-base-url}}\" />\r\n    <rewrite-uri template=\"{{container-delete-uri}}\" copy-unmatched-params=\"true\" />\r\n    <validate-content unspecified-content-type-action=\"ignore\" max-size=\"512\" size-exceeded-action=\"ignore\" errors-variable-name=\"validationErrors\">\r\n      <content type=\"application/json\" validate-as=\"json\" action=\"prevent\" schema-id=\"Container\" />\r\n    </validate-content>\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>",
+                "format": "xml"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef73db3fa3b6178907a65/63aef73edd5fa430dc94d9ff/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65', '63aef73edd5fa430dc94d9ff')]",
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\r\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\r\n-->\r\n<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-header name=\"Content-Type\" exists-action=\"override\">\r\n      <value>application/json</value>\r\n    </set-header>\r\n    <include-fragment fragment-id=\"SalesReturnHeaderValidation\" />\r\n    <set-backend-service base-url=\"{{la-base-url}}\" />\r\n    <rewrite-uri template=\"{{return-order-delete-uri}}\" copy-unmatched-params=\"true\" />\r\n    <validate-content unspecified-content-type-action=\"ignore\" max-size=\"512\" size-exceeded-action=\"ignore\" errors-variable-name=\"validationErrors\">\r\n      <content type=\"application/json\" validate-as=\"json\" action=\"prevent\" schema-id=\"ReturnOrder\" />\r\n    </validate-content>\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>",
+                "format": "xml"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef73db3fa3b6178907a65/63aef73efbeb377c43f17e8f/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65', '63aef73efbeb377c43f17e8f')]",
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef73db3fa3b6178907a65')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\r\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\r\n-->\r\n<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-header name=\"Content-Type\" exists-action=\"override\">\r\n      <value>application/json</value>\r\n    </set-header>\r\n    <include-fragment fragment-id=\"TransferOrderHeaderValidation\" />\r\n    <set-variable name=\"resourceUri\" value=\"{{sb-base-url}}/{{tran-ord-topic}}/messages\" />\r\n    <include-fragment fragment-id=\"ServiceBusAuth\" />\r\n    <rewrite-uri template=\"/{{tran-ord-topic}}/messages\" copy-unmatched-params=\"true\" />\r\n    <validate-content unspecified-content-type-action=\"ignore\" max-size=\"512\" size-exceeded-action=\"ignore\" errors-variable-name=\"validationErrors\">\r\n      <content type=\"application/json\" validate-as=\"json\" action=\"prevent\" schema-id=\"TransferOrder\" />\r\n    </validate-content>\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>",
+                "format": "xml"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef772db2349a5ffa53535/63aef773456e608d66442469/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('service_RCL_API_MGT_01_name'), '63aef772db2349a5ffa53535', '63aef773456e608d66442469')]",
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef772db2349a5ffa53535')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\r\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\r\n-->\r\n<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-header name=\"Content-Type\" exists-action=\"override\">\r\n      <value>application/json</value>\r\n    </set-header>\r\n    <set-variable name=\"resourceUri\" value=\"{{sb-base-url}}/{{chs-rpt-conf-topic}}/messages\" />\r\n    <include-fragment fragment-id=\"ServiceBusAuth\" />\r\n    <rewrite-uri template=\"/{{chs-rpt-conf-topic}}/messages\" copy-unmatched-params=\"true\" />\r\n    <validate-content unspecified-content-type-action=\"ignore\" max-size=\"512\" size-exceeded-action=\"ignore\" errors-variable-name=\"validationErrors\">\r\n      <content type=\"application/json\" validate-as=\"json\" action=\"prevent\" schema-id=\"ReceiptConfirmation\" />\r\n    </validate-content>\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>",
+                "format": "xml"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef772db2349a5ffa53535/63aef773792fe7c35a7b3942/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('service_RCL_API_MGT_01_name'), '63aef772db2349a5ffa53535', '63aef773792fe7c35a7b3942')]",
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef772db2349a5ffa53535')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\r\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\r\n-->\r\n<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-header name=\"Content-Type\" exists-action=\"override\">\r\n      <value>application/json</value>\r\n    </set-header>\r\n    <set-variable name=\"resourceUri\" value=\"{{sb-base-url}}/{{chs-web-rtn-conf-topic}}/messages\" />\r\n    <include-fragment fragment-id=\"ServiceBusAuth\" />\r\n    <rewrite-uri template=\"/{{chs-web-rtn-conf-topic}}/messages\" copy-unmatched-params=\"true\" />\r\n    <validate-content unspecified-content-type-action=\"ignore\" max-size=\"512\" size-exceeded-action=\"ignore\" errors-variable-name=\"validationErrors\">\r\n      <content type=\"application/json\" validate-as=\"json\" action=\"prevent\" schema-id=\"WebReturnConfirmation\" />\r\n    </validate-content>\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>",
+                "format": "xml"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef772db2349a5ffa53535/63aef773a4015571c94e4051/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('service_RCL_API_MGT_01_name'), '63aef772db2349a5ffa53535', '63aef773a4015571c94e4051')]",
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef772db2349a5ffa53535')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\r\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\r\n-->\r\n<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-header name=\"Content-Type\" exists-action=\"override\">\r\n      <value>application/json</value>\r\n    </set-header>\r\n    <set-variable name=\"resourceUri\" value=\"{{sb-base-url}}/{{chs-shp-conf-topic}}/messages\" />\r\n    <include-fragment fragment-id=\"ServiceBusAuth\" />\r\n    <rewrite-uri template=\"/{{chs-shp-conf-topic}}/messages\" copy-unmatched-params=\"true\" />\r\n    <validate-content unspecified-content-type-action=\"ignore\" max-size=\"512\" size-exceeded-action=\"ignore\" errors-variable-name=\"validationErrors\">\r\n      <content type=\"application/json\" validate-as=\"json\" action=\"prevent\" schema-id=\"ShipmentConfirmation\" />\r\n    </validate-content>\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>",
+                "format": "xml"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef772db2349a5ffa53535/63aef773e9103c105e591a81/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('service_RCL_API_MGT_01_name'), '63aef772db2349a5ffa53535', '63aef773e9103c105e591a81')]",
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef772db2349a5ffa53535')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\r\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\r\n-->\r\n<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-header name=\"Content-Type\" exists-action=\"override\">\r\n      <value>application/json</value>\r\n    </set-header>\r\n    <set-variable name=\"resourceUri\" value=\"{{sb-base-url}}/{{chs-rtn-ord-conf-topic}}/messages\" />\r\n    <include-fragment fragment-id=\"ServiceBusAuth\" />\r\n    <rewrite-uri template=\"/{{chs-rtn-ord-conf-topic}}/messages\" copy-unmatched-params=\"true\" />\r\n    <validate-content unspecified-content-type-action=\"ignore\" max-size=\"512\" size-exceeded-action=\"ignore\" errors-variable-name=\"validationErrors\">\r\n      <content type=\"application/json\" validate-as=\"json\" action=\"prevent\" schema-id=\"ReturnOrderConf\" />\r\n    </validate-content>\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>",
+                "format": "xml"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef772db2349a5ffa53535/63aef773f1f579f74ca5d817/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('service_RCL_API_MGT_01_name'), '63aef772db2349a5ffa53535', '63aef773f1f579f74ca5d817')]",
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef772db2349a5ffa53535')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\r\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\r\n-->\r\n<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-header name=\"Content-Type\" exists-action=\"override\">\r\n      <value>application/json</value>\r\n    </set-header>\r\n    <set-variable name=\"resourceUri\" value=\"{{sb-base-url}}/{{chs-tran-rpt-conf-topic}}/messages\" />\r\n    <include-fragment fragment-id=\"ServiceBusAuth\" />\r\n    <rewrite-uri template=\"/{{chs-tran-rpt-conf-topic}}/messages\" copy-unmatched-params=\"true\" />\r\n    <validate-content unspecified-content-type-action=\"ignore\" max-size=\"512\" size-exceeded-action=\"ignore\" errors-variable-name=\"validationErrors\">\r\n      <content type=\"application/json\" validate-as=\"json\" action=\"prevent\" schema-id=\"TransferReceiptConfirmation\" />\r\n    </validate-content>\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>",
+                "format": "xml"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef772db2349a5ffa53535/63aef773fff545e3fb8c4a8a/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('service_RCL_API_MGT_01_name'), '63aef772db2349a5ffa53535', '63aef773fff545e3fb8c4a8a')]",
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef772db2349a5ffa53535')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\r\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\r\n-->\r\n<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-header name=\"Content-Type\" exists-action=\"override\">\r\n      <value>application/json</value>\r\n    </set-header>\r\n    <set-variable name=\"resourceUri\" value=\"{{sb-base-url}}/{{chs-adj-topic}}/messages\" />\r\n    <include-fragment fragment-id=\"ServiceBusAuth\" />\r\n    <rewrite-uri template=\"/{{chs-adj-topic}}/messages\" copy-unmatched-params=\"true\" />\r\n    <validate-content unspecified-content-type-action=\"ignore\" max-size=\"512\" size-exceeded-action=\"ignore\" errors-variable-name=\"validationErrors\">\r\n      <content type=\"application/json\" validate-as=\"json\" action=\"prevent\" schema-id=\"Adjustments\" />\r\n    </validate-content>\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>",
+                "format": "xml"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[concat(parameters('service_RCL_API_MGT_01_name'), '/63aef79b4b87e7346516561e/63aef79c9ba5ad4996252f46/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('service_RCL_API_MGT_01_name'), '63aef79b4b87e7346516561e', '63aef79c9ba5ad4996252f46')]",
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_RCL_API_MGT_01_name'), '63aef79b4b87e7346516561e')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_RCL_API_MGT_01_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\r\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\r\n-->\r\n<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-header name=\"Content-Type\" exists-action=\"override\">\r\n      <value>application/json</value>\r\n    </set-header>\r\n    <set-variable name=\"resourceUri\" value=\"https://httpbin.org/post\" />\r\n    <rewrite-uri template=\"/post\" copy-unmatched-params=\"true\" />\r\n    <set-backend-service base-url=\"https://httpbin.org\" />\r\n    <include-fragment fragment-id=\"PFSAuth\" />\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>",
+                "format": "xml"
+            }
+        }
+    ]
+}
