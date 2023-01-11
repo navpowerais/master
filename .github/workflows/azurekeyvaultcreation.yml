@@ -48,14 +48,15 @@ jobs:
       with:
         subscriptionId: ${{secrets.AZ_SUBSCRIPTION_ID}}
         RESOURCE_GROUP: ${{secrets.AZ_AIS_RG}}
-        bicepBicep_path: ${{  env.Bicep_path }}
+        templateFile: ${{  env.Bicep_path }}
+          #az deployment group what-if --mode Incremental --parameters @parameters.json --resource-group testrg --template-file $Bicep_path
         
 
       # Deploy Bicep file
       #az deployment group create --name $DEPLOYMENT_NAME --resource-group $RESOURCE_GROUP --template-file ./keyvaultcreation.bicep --parameters @parameters.json
     - name: Deploy Keyvault Bicep
       run: |
-        az deployment group create --name $DEPLOYMENT_NAME --resource-group $RESOURCE_GROUP --template-file ./keyvaultcreation.bicep --parameters prefix=ais objectId=$AZ_OBJECT_ID
+        az deployment group create --name $DEPLOYMENT_NAME --resource-group $AZ_RG_NM --template-file ./keyvaultcreation.bicep --parameters prefix=ais objectId=$AZ_OBJECT_ID
       env:
         DEPLOYMENT_NAME: ${{ env.DEPLOYMENT_NAME }}
         DEPLOYMENT_NAME_ID: ${{ github.run_id }}
