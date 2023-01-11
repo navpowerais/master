@@ -49,8 +49,8 @@ jobs:
     - name: Keyvault bicep check
       uses: azure/deployment-what-if-action@v1.0.0
       with:
-        subscriptionId: ${{secrets.AZ_SUBSCRIPTION_ID}}
-        RESOURCE_GROUP: ${{secrets.AZ_RG_NM}}
+        subscription: ${{secrets.AZ_SUBSCRIPTION_ID}}
+        resourceGroup: ${{secrets.AZ_RG_NM}}
         templateFile: ${{  env.Bicep_path }}
           #az deployment group what-if --mode Incremental --parameters @parameters.json --resource-group $RESOURCE_GROUP --template-file $Bicep_path
         
