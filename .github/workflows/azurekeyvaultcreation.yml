@@ -19,9 +19,11 @@ env:
   AZ_RGS_NM: "azintegration"
   outputFilePath: ./master/main/AzureIntegration/KeyVault/pipeline/
   # Setting Github what permissions this workflow needs
-  permissions:
+  permissions: 
   id-token: write
   contents: read
+  deployments: read
+  actions: write
 
 jobs:
   build-and-deploy:
@@ -57,7 +59,7 @@ jobs:
       #az deployment group create --name $DEPLOYMENT_NAME --resource-group $RESOURCE_GROUP --template-file ./keyvaultcreation.bicep --parameters @parameters.json
     - name: Deploy Keyvault Bicep
       run: |
-        az deployment group create --name $DEPLOYMENT_NAME --resource-group $AZ_RG_NM --template-file ./keyvaultcreation.bicep --parameters prefix=ais objectId=$AZ_OBJECT_ID
+        az deployment group create --name $DEPLOYMENT_NAME --resource-group $AZ_RG_NM --template-file ./keyvaultcreation.bicep --parameters @parameters.json
       env:
         DEPLOYMENT_NAME: ${{ env.DEPLOYMENT_NAME }}
         DEPLOYMENT_NAME_ID: ${{ github.run_id }}
