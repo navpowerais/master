@@ -1,80 +1,73 @@
-@description('Naming the specific keyvault')
-@minLength(3)
-@maxLength(12)
-param prefix string
+# This Workflow will create the Azure Keyvault
+name: azurekeyvaultcreation
+# Controls when the workflow will run
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
 
-@description('Specifies the Azure location where the key vault should be created.')
-param location string = resourceGroup().location
+env:
+  # ARM deployment instance name (used to extract outputs)
+  DEPLOYMENT_NAME: GH_CICD_${{ github.run_id }}
+  Bicep_path: ./master/main/AzureIntegration/KeyVault/pipeline/keyvaultcreation.bicep
+  AZ_OBJECT_ID: ${{ secrets.AZ_OBJECT_ID}}
+  AZ_RG_NM: ${{ secrets.AZ_RG_NM}}
+  AZ_RGS_NM: "azintegration"
+  outputFilePath: ./master/main/AzureIntegration/KeyVault/pipeline/
+  # Setting Github what permissions this workflow needs
+  permissions: 
+  id-token: write
+  contents: read
+  deployments: read
+  actions: write
 
-@description('Specifies whether Azure Virtual Machines are permitted to retrieve certificates stored as secrets from the key vault.')
-param enabledForDeployment bool = false
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    # Checkout code
+    - uses: actions/checkout@main
 
-@description('Specifies whether Azure Disk Encryption is permitted to retrieve secrets from the vault and unwrap keys.')
-param enabledForDiskEncryption bool = false
+    # Log into Azure
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-@description('Specifies whether Azure Resource Manager is permitted to retrieve secrets from the key vault.')
-param enabledForTemplateDeployment bool = false
+    - name: create & check the RG
+      uses: Azure/cli@v1.0.6
+      with:
+        azcliversion: 2.44.0
+        inlineScript: |
+          az version
+          az group deployment list --resource-group $AZ_RG_NM
 
-@description('Specifies the Azure Active Directory tenant ID that should be used for authenticating requests to the key vault. Get it by using Get-AzSubscription cmdlet.')
-param tenantId string = subscription().tenantId
+    - name: Keyvault bicep check
+      uses: azure/deployment-what-if-action@v1.0.0
+      with:
+        subscription: ${{secrets.AZ_SUBSCRIPTION_ID}}
+        resourceGroup: ${{secrets.AZ_RG_NM}}
+        templateFile: ${{  env.Bicep_path }}
+          #az deployment group what-if --mode Incremental --parameters @parameters.json --resource-group $RESOURCE_GROUP --template-file $Bicep_path
+        
 
-@description('Specifies the object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies. Get it by using Get-AzADUser or Get-AzADServicePrincipal cmdlets.')
-param objectId string
-
-@description('Specifies the permissions to keys in the vault. Valid values are: all, encrypt, decrypt, wrapKey, unwrapKey, sign, verify, get, list, create, update, import, delete, backup, restore, recover, and purge.')
-param keysPermissions array = [
-  'list'
-]
-
-@description('Specifies the permissions to secrets in the vault. Valid values are: all, get, list, set, delete, backup, restore, recover, and purge.')
-param secretsPermissions array = [
-  'list'
-]
-
-@description('Specifies whether the key vault is a standard vault or a premium vault.')
-@allowed([
-  'standard'
-  'premium'
-])
-param skuName string = 'standard'
-
-@description('Specifies the name of the secret that you want to create.')
-param secretName string
-
-@description('Specifies the value of the secret that you want to create.')
-@secure()
-param secretValue string
-
-var vaultname = '${prefix}${uniqueString(resourceGroup().id)}'
-
-resource kv 'Microsoft.KeyVault/vaults@2022-07-01' = {
-  name:vaultname
-  location:location
-  properties: {
-    enabledForDeployment: enabledForDeployment
-    enabledForDiskEncryption: enabledForDiskEncryption
-    enabledForTemplateDeployment: enabledForTemplateDeployment
-    tenantId: tenantId
-    accessPolicies: [
-      {
-        objectId: objectId
-        tenantId: tenantId
-        permissions: {
-          keys: keysPermissions
-          secrets: secretsPermissions
-        }
-      }
-    ]
-    sku: {
-      name: skuName
-      family: 'A'
-    }
-    networkAcls: { defaultAction: 'Allow', bypass: 'AzureServices' }
-  }
-}
-
-resource secret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = {
-parent:kv
-name: secretName
-properties:{ value: secretValue }
-}
+      # Deploy Bicep file
+      #az deployment group create --name $DEPLOYMENT_NAME --resource-group $RESOURCE_GROUP --template-file ./keyvaultcreation.bicep --parameters @parameters.json
+    - name: Deploy Keyvault Bicep
+      run: |
+        az deployment group create --name $DEPLOYMENT_NAME --resource-group $AZ_RG_NM --template-file ./keyvaultcreation.bicep --parameters @parameters.json
+      env:
+        DEPLOYMENT_NAME: ${{ env.DEPLOYMENT_NAME }}
+        DEPLOYMENT_NAME_ID: ${{ github.run_id }}
+        RESOURCE_GROUP: ${{secrets.AZ_AIS_RG}}
+        subscriptionId: ${{secrets.AZ_SUBSCRIPTION_ID}}
+        bicepBicep_path: ${{  env.bicepfilePath }}
+        outputFilePath: ./output.json
+      # Extract deployment output
+    - name: deploymentlogs
+      run: |
+        echo "Keyvault_LOGS=$(az deployment group show --name ${{ env.DEPLOYMENT_NAME }} --resource-group ${{ env.AZ_RG_NM}} --output tsv)" >> $GITHUB_WORKSPACE/output.json
