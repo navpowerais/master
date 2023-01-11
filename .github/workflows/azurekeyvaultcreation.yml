@@ -35,11 +35,27 @@ jobs:
       with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+    - name: create & check the RG
+      uses: Azure/cli@1.0.6
+      with:
+        azcliversion: 2.44.0
+        inlineScript: |
+          az version
+          az group deployment list --resource-group $AZ_RG_NM
+
+    - name: Keyvault bicep check
+      uses: azure/deployment-what-if-action@v1.0.0
+      with:
+        subscriptionId: ${{secrets.AZ_SUBSCRIPTION_ID}}
+        RESOURCE_GROUP: ${{secrets.AZ_AIS_RG}}
+        bicepBicep_path: ${{  env.Bicep_path }}
+        
+
       # Deploy Bicep file
-      #az deployment group create --name $DEPLOYMENT_NAME --resource-group $RESOURCE_GROUP --template-file ./keyvaultcreation.bicep --parameters prefix=ais objectId=$AZ_OBJECT_ID
+      #az deployment group create --name $DEPLOYMENT_NAME --resource-group $RESOURCE_GROUP --template-file ./keyvaultcreation.bicep --parameters @parameters.json
     - name: Deploy Keyvault Bicep
       run: |
-        az deployment group create --name $DEPLOYMENT_NAME --resource-group $RESOURCE_GROUP --template-file ./keyvaultcreation.bicep --parameters @parameters.json
+        az deployment group create --name $DEPLOYMENT_NAME --resource-group $RESOURCE_GROUP --template-file ./keyvaultcreation.bicep --parameters prefix=ais objectId=$AZ_OBJECT_ID
       env:
         DEPLOYMENT_NAME: ${{ env.DEPLOYMENT_NAME }}
         DEPLOYMENT_NAME_ID: ${{ github.run_id }}
@@ -50,5 +66,4 @@ jobs:
       # Extract deployment output
     - name: deploymentlogs
       run: |
-        ls -lart
         echo "Keyvault_LOGS=$(az deployment group show --name ${{ env.DEPLOYMENT_NAME }} --resource-group ${{ env.AZ_RG_NM}} --output tsv)" >> $GITHUB_WORKSPACE/output.json

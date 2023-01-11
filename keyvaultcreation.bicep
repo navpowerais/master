@@ -44,10 +44,11 @@ resource kv 'Microsoft.KeyVault/vaults@2022-07-01' = {
   name:vaultname
   location:location
   properties: {
-    enabledForDeployment: enabledForDeployment
-    enabledForDiskEncryption: enabledForDiskEncryption
-    enabledForTemplateDeployment: enabledForTemplateDeployment
+    enabledForDeployment: true
+    enabledForDiskEncryption: true
+    enabledForTemplateDeployment: true
     enableSoftDelete: true
+    enableRbacAuthorization: true
     softDeleteRetentionInDays: 90
     tenantId: tenantId
     sku: {
@@ -152,3 +153,5 @@ resource kv 'Microsoft.KeyVault/vaults@2022-07-01' = {
     networkAcls: { defaultAction: 'Allow', bypass: 'AzureServices' }
   }
 }
+
+output vaultname string = kv.name
