@@ -9,13 +9,19 @@
         "value": "${prefix}${uniqueString(resourceGroup().id)}"
       },
       "location":{
-        "value": "East US"
+        "value": "resourceGroup().location"
+      },
+      "SBUSauthrulename":{
+        "value": "${prefix}rule${uniqueString(resourceGroup().id)}"
       },
       "TopicName": {
-        "value": "sampletopic,sampletopic2"
+        "value": "${prefix}topic${uniqueString(resourceGroup().id)}"
       },
       "SubscriptionName": {
-        "value": "samplesub,samplbesub2"
+        "value": "${prefix}subscription${uniqueString(resourceGroup().id)}"
+      },
+      "sbfilter":{
+        "value": "${prefix}filter${uniqueString(resourceGroup().id)}"
       }
     }
   }
