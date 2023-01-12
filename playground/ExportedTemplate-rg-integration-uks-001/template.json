@@ -1,0 +1,1605 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name": {
+            "defaultValue": "RCL-AISFW-UKS-SERVICEBUS-01",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.ServiceBus/namespaces",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name')]",
+            "location": "UK South",
+            "sku": {
+                "name": "Standard",
+                "tier": "Standard"
+            },
+            "properties": {
+                "minimumTlsVersion": "1.2",
+                "publicNetworkAccess": "Enabled",
+                "disableLocalAuth": false,
+                "zoneRedundant": false
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/authorizationrules",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/APIMgtSend')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "rights": [
+                    "Send"
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/authorizationrules",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/RootManageSharedAccessKey')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "rights": [
+                    "Listen",
+                    "Manage",
+                    "Send"
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/networkRuleSets",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/default')]",
+            "location": "UK South",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "publicNetworkAccess": "Enabled",
+                "defaultAction": "Allow",
+                "virtualNetworkRules": [],
+                "ipRules": []
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/chess-adjustment')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "maxMessageSizeInKilobytes": 256,
+                "defaultMessageTimeToLive": "P14D",
+                "maxSizeInMegabytes": 1024,
+                "requiresDuplicateDetection": false,
+                "duplicateDetectionHistoryTimeWindow": "PT10M",
+                "enableBatchedOperations": true,
+                "status": "Active",
+                "supportOrdering": true,
+                "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
+                "enablePartitioning": false,
+                "enableExpress": false
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/chess-receipt-conf')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "maxMessageSizeInKilobytes": 256,
+                "defaultMessageTimeToLive": "P14D",
+                "maxSizeInMegabytes": 1024,
+                "requiresDuplicateDetection": false,
+                "duplicateDetectionHistoryTimeWindow": "PT10M",
+                "enableBatchedOperations": true,
+                "status": "Active",
+                "supportOrdering": true,
+                "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
+                "enablePartitioning": false,
+                "enableExpress": false
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/chess-reconciliation')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "maxMessageSizeInKilobytes": 256,
+                "defaultMessageTimeToLive": "P14D",
+                "maxSizeInMegabytes": 1024,
+                "requiresDuplicateDetection": false,
+                "duplicateDetectionHistoryTimeWindow": "PT10M",
+                "enableBatchedOperations": true,
+                "status": "Active",
+                "supportOrdering": true,
+                "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
+                "enablePartitioning": false,
+                "enableExpress": false
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/chess-return-order-conf')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "maxMessageSizeInKilobytes": 256,
+                "defaultMessageTimeToLive": "P14D",
+                "maxSizeInMegabytes": 1024,
+                "requiresDuplicateDetection": false,
+                "duplicateDetectionHistoryTimeWindow": "PT10M",
+                "enableBatchedOperations": true,
+                "status": "Active",
+                "supportOrdering": true,
+                "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
+                "enablePartitioning": false,
+                "enableExpress": false
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/chess-shipment-conf')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "maxMessageSizeInKilobytes": 256,
+                "defaultMessageTimeToLive": "P14D",
+                "maxSizeInMegabytes": 1024,
+                "requiresDuplicateDetection": false,
+                "duplicateDetectionHistoryTimeWindow": "PT10M",
+                "enableBatchedOperations": true,
+                "status": "Active",
+                "supportOrdering": true,
+                "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
+                "enablePartitioning": false,
+                "enableExpress": false
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/chess-transfer-receipt-conf')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "maxMessageSizeInKilobytes": 256,
+                "defaultMessageTimeToLive": "P14D",
+                "maxSizeInMegabytes": 1024,
+                "requiresDuplicateDetection": false,
+                "duplicateDetectionHistoryTimeWindow": "PT10M",
+                "enableBatchedOperations": true,
+                "status": "Active",
+                "supportOrdering": true,
+                "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
+                "enablePartitioning": false,
+                "enableExpress": false
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/chess-web-return-conf')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "maxMessageSizeInKilobytes": 256,
+                "defaultMessageTimeToLive": "P14D",
+                "maxSizeInMegabytes": 1024,
+                "requiresDuplicateDetection": false,
+                "duplicateDetectionHistoryTimeWindow": "PT10M",
+                "enableBatchedOperations": true,
+                "status": "Active",
+                "supportOrdering": true,
+                "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
+                "enablePartitioning": false,
+                "enableExpress": false
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/pfs-adjustment')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "maxMessageSizeInKilobytes": 256,
+                "defaultMessageTimeToLive": "P14D",
+                "maxSizeInMegabytes": 1024,
+                "requiresDuplicateDetection": false,
+                "duplicateDetectionHistoryTimeWindow": "PT10M",
+                "enableBatchedOperations": true,
+                "status": "Active",
+                "supportOrdering": true,
+                "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
+                "enablePartitioning": false,
+                "enableExpress": false
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/pfs-inventory')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "maxMessageSizeInKilobytes": 256,
+                "defaultMessageTimeToLive": "P14D",
+                "maxSizeInMegabytes": 1024,
+                "requiresDuplicateDetection": false,
+                "duplicateDetectionHistoryTimeWindow": "PT10M",
+                "enableBatchedOperations": true,
+                "status": "Active",
+                "supportOrdering": true,
+                "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
+                "enablePartitioning": false,
+                "enableExpress": false
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/pfs-order-ack')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "maxMessageSizeInKilobytes": 256,
+                "defaultMessageTimeToLive": "P14D",
+                "maxSizeInMegabytes": 1024,
+                "requiresDuplicateDetection": false,
+                "duplicateDetectionHistoryTimeWindow": "PT10M",
+                "enableBatchedOperations": true,
+                "status": "Active",
+                "supportOrdering": true,
+                "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
+                "enablePartitioning": false,
+                "enableExpress": false
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/pfs-receipt-conf')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "maxMessageSizeInKilobytes": 256,
+                "defaultMessageTimeToLive": "P14D",
+                "maxSizeInMegabytes": 1024,
+                "requiresDuplicateDetection": false,
+                "duplicateDetectionHistoryTimeWindow": "PT10M",
+                "enableBatchedOperations": true,
+                "status": "Active",
+                "supportOrdering": true,
+                "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
+                "enablePartitioning": false,
+                "enableExpress": false
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/pfs-sales-return-conf')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "maxMessageSizeInKilobytes": 256,
+                "defaultMessageTimeToLive": "P14D",
+                "maxSizeInMegabytes": 1024,
+                "requiresDuplicateDetection": false,
+                "duplicateDetectionHistoryTimeWindow": "PT10M",
+                "enableBatchedOperations": true,
+                "status": "Active",
+                "supportOrdering": true,
+                "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
+                "enablePartitioning": false,
+                "enableExpress": false
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/pfs-shipment-conf')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "maxMessageSizeInKilobytes": 256,
+                "defaultMessageTimeToLive": "P14D",
+                "maxSizeInMegabytes": 1024,
+                "requiresDuplicateDetection": false,
+                "duplicateDetectionHistoryTimeWindow": "PT10M",
+                "enableBatchedOperations": true,
+                "status": "Active",
+                "supportOrdering": true,
+                "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
+                "enablePartitioning": false,
+                "enableExpress": false
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/product')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "maxMessageSizeInKilobytes": 256,
+                "defaultMessageTimeToLive": "P14D",
+                "maxSizeInMegabytes": 1024,
+                "requiresDuplicateDetection": false,
+                "duplicateDetectionHistoryTimeWindow": "PT10M",
+                "enableBatchedOperations": true,
+                "status": "Active",
+                "supportOrdering": true,
+                "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
+                "enablePartitioning": false,
+                "enableExpress": false
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/return-order')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "maxMessageSizeInKilobytes": 256,
+                "defaultMessageTimeToLive": "P14D",
+                "maxSizeInMegabytes": 1024,
+                "requiresDuplicateDetection": false,
+                "duplicateDetectionHistoryTimeWindow": "PT10M",
+                "enableBatchedOperations": true,
+                "status": "Active",
+                "supportOrdering": true,
+                "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
+                "enablePartitioning": false,
+                "enableExpress": false
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/sales-order')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "maxMessageSizeInKilobytes": 256,
+                "defaultMessageTimeToLive": "P14D",
+                "maxSizeInMegabytes": 1024,
+                "requiresDuplicateDetection": false,
+                "duplicateDetectionHistoryTimeWindow": "PT10M",
+                "enableBatchedOperations": true,
+                "status": "Active",
+                "supportOrdering": true,
+                "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
+                "enablePartitioning": false,
+                "enableExpress": false
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/transfer-order')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "maxMessageSizeInKilobytes": 256,
+                "defaultMessageTimeToLive": "P14D",
+                "maxSizeInMegabytes": 1024,
+                "requiresDuplicateDetection": false,
+                "duplicateDetectionHistoryTimeWindow": "PT10M",
+                "enableBatchedOperations": true,
+                "status": "Active",
+                "supportOrdering": true,
+                "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
+                "enablePartitioning": false,
+                "enableExpress": false
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/truecommerce-asn')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "maxMessageSizeInKilobytes": 256,
+                "defaultMessageTimeToLive": "P14D",
+                "maxSizeInMegabytes": 1024,
+                "requiresDuplicateDetection": false,
+                "duplicateDetectionHistoryTimeWindow": "PT10M",
+                "enableBatchedOperations": true,
+                "status": "Active",
+                "supportOrdering": true,
+                "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
+                "enablePartitioning": false,
+                "enableExpress": false
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/truecommerce-inventory')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "maxMessageSizeInKilobytes": 256,
+                "defaultMessageTimeToLive": "P14D",
+                "maxSizeInMegabytes": 1024,
+                "requiresDuplicateDetection": false,
+                "duplicateDetectionHistoryTimeWindow": "PT10M",
+                "enableBatchedOperations": true,
+                "status": "Active",
+                "supportOrdering": true,
+                "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
+                "enablePartitioning": false,
+                "enableExpress": false
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/truecommerce-invoice')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "maxMessageSizeInKilobytes": 256,
+                "defaultMessageTimeToLive": "P14D",
+                "maxSizeInMegabytes": 1024,
+                "requiresDuplicateDetection": false,
+                "duplicateDetectionHistoryTimeWindow": "PT10M",
+                "enableBatchedOperations": true,
+                "status": "Active",
+                "supportOrdering": true,
+                "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
+                "enablePartitioning": false,
+                "enableExpress": false
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/truecommerce-purchase-order-ack')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "maxMessageSizeInKilobytes": 256,
+                "defaultMessageTimeToLive": "P14D",
+                "maxSizeInMegabytes": 1024,
+                "requiresDuplicateDetection": false,
+                "duplicateDetectionHistoryTimeWindow": "PT10M",
+                "enableBatchedOperations": true,
+                "status": "Active",
+                "supportOrdering": true,
+                "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
+                "enablePartitioning": false,
+                "enableExpress": false
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/truecommerce-salesorder')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "maxMessageSizeInKilobytes": 256,
+                "defaultMessageTimeToLive": "P14D",
+                "maxSizeInMegabytes": 1024,
+                "requiresDuplicateDetection": false,
+                "duplicateDetectionHistoryTimeWindow": "PT10M",
+                "enableBatchedOperations": true,
+                "status": "Active",
+                "supportOrdering": true,
+                "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
+                "enablePartitioning": false,
+                "enableExpress": false
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/truecommerce-salestransaction')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "maxMessageSizeInKilobytes": 256,
+                "defaultMessageTimeToLive": "P14D",
+                "maxSizeInMegabytes": 1024,
+                "requiresDuplicateDetection": false,
+                "duplicateDetectionHistoryTimeWindow": "PT10M",
+                "enableBatchedOperations": true,
+                "status": "Active",
+                "supportOrdering": true,
+                "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
+                "enablePartitioning": false,
+                "enableExpress": false
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/truecommerce-salestransaction/amazon')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'truecommerce-salestransaction')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "isClientAffine": false,
+                "lockDuration": "PT30S",
+                "requiresSession": false,
+                "defaultMessageTimeToLive": "P14D",
+                "deadLetteringOnMessageExpiration": false,
+                "deadLetteringOnFilterEvaluationExceptions": false,
+                "maxDeliveryCount": 1,
+                "status": "Active",
+                "enableBatchedOperations": true,
+                "autoDeleteOnIdle": "P14D"
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/chess-adjustment/bc')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'chess-adjustment')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "isClientAffine": false,
+                "lockDuration": "PT30S",
+                "requiresSession": false,
+                "defaultMessageTimeToLive": "P14D",
+                "deadLetteringOnMessageExpiration": false,
+                "deadLetteringOnFilterEvaluationExceptions": false,
+                "maxDeliveryCount": 1,
+                "status": "Active",
+                "enableBatchedOperations": true,
+                "autoDeleteOnIdle": "P14D"
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/chess-receipt-conf/bc')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'chess-receipt-conf')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "isClientAffine": false,
+                "lockDuration": "PT30S",
+                "requiresSession": false,
+                "defaultMessageTimeToLive": "P14D",
+                "deadLetteringOnMessageExpiration": false,
+                "deadLetteringOnFilterEvaluationExceptions": false,
+                "maxDeliveryCount": 1,
+                "status": "Active",
+                "enableBatchedOperations": true,
+                "autoDeleteOnIdle": "P14D"
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/chess-reconciliation/bc')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'chess-reconciliation')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "isClientAffine": false,
+                "lockDuration": "PT30S",
+                "requiresSession": false,
+                "defaultMessageTimeToLive": "P14D",
+                "deadLetteringOnMessageExpiration": false,
+                "deadLetteringOnFilterEvaluationExceptions": false,
+                "maxDeliveryCount": 1,
+                "status": "Active",
+                "enableBatchedOperations": true,
+                "autoDeleteOnIdle": "P14D"
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/chess-return-order-conf/bc')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'chess-return-order-conf')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "isClientAffine": false,
+                "lockDuration": "PT30S",
+                "requiresSession": false,
+                "defaultMessageTimeToLive": "P14D",
+                "deadLetteringOnMessageExpiration": false,
+                "deadLetteringOnFilterEvaluationExceptions": false,
+                "maxDeliveryCount": 1,
+                "status": "Active",
+                "enableBatchedOperations": true,
+                "autoDeleteOnIdle": "P14D"
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/chess-shipment-conf/bc')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'chess-shipment-conf')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "isClientAffine": false,
+                "lockDuration": "PT30S",
+                "requiresSession": false,
+                "defaultMessageTimeToLive": "P14D",
+                "deadLetteringOnMessageExpiration": false,
+                "deadLetteringOnFilterEvaluationExceptions": false,
+                "maxDeliveryCount": 1,
+                "status": "Active",
+                "enableBatchedOperations": true,
+                "autoDeleteOnIdle": "P14D"
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/chess-transfer-receipt-conf/bc')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'chess-transfer-receipt-conf')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "isClientAffine": false,
+                "lockDuration": "PT30S",
+                "requiresSession": false,
+                "defaultMessageTimeToLive": "P14D",
+                "deadLetteringOnMessageExpiration": false,
+                "deadLetteringOnFilterEvaluationExceptions": false,
+                "maxDeliveryCount": 1,
+                "status": "Active",
+                "enableBatchedOperations": true,
+                "autoDeleteOnIdle": "P14D"
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/chess-web-return-conf/bc')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'chess-web-return-conf')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "isClientAffine": false,
+                "lockDuration": "PT30S",
+                "requiresSession": false,
+                "defaultMessageTimeToLive": "P14D",
+                "deadLetteringOnMessageExpiration": false,
+                "deadLetteringOnFilterEvaluationExceptions": false,
+                "maxDeliveryCount": 1,
+                "status": "Active",
+                "enableBatchedOperations": true,
+                "autoDeleteOnIdle": "P14D"
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/truecommerce-salesorder/belk')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'truecommerce-salesorder')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "isClientAffine": false,
+                "lockDuration": "PT30S",
+                "requiresSession": false,
+                "defaultMessageTimeToLive": "P14D",
+                "deadLetteringOnMessageExpiration": false,
+                "deadLetteringOnFilterEvaluationExceptions": false,
+                "maxDeliveryCount": 1,
+                "status": "Active",
+                "enableBatchedOperations": true,
+                "autoDeleteOnIdle": "P14D"
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/product/chess')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'product')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "isClientAffine": false,
+                "lockDuration": "PT30S",
+                "requiresSession": false,
+                "defaultMessageTimeToLive": "P14D",
+                "deadLetteringOnMessageExpiration": false,
+                "deadLetteringOnFilterEvaluationExceptions": false,
+                "maxDeliveryCount": 1,
+                "status": "Active",
+                "enableBatchedOperations": true,
+                "autoDeleteOnIdle": "P14D"
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/return-order/chess')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'return-order')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "isClientAffine": false,
+                "lockDuration": "PT30S",
+                "requiresSession": false,
+                "defaultMessageTimeToLive": "P14D",
+                "deadLetteringOnMessageExpiration": false,
+                "deadLetteringOnFilterEvaluationExceptions": false,
+                "maxDeliveryCount": 1,
+                "status": "Active",
+                "enableBatchedOperations": true,
+                "autoDeleteOnIdle": "P14D"
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/sales-order/chess')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'sales-order')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "isClientAffine": false,
+                "lockDuration": "PT30S",
+                "requiresSession": false,
+                "defaultMessageTimeToLive": "P14D",
+                "deadLetteringOnMessageExpiration": false,
+                "deadLetteringOnFilterEvaluationExceptions": false,
+                "maxDeliveryCount": 1,
+                "status": "Active",
+                "enableBatchedOperations": true,
+                "autoDeleteOnIdle": "P14D"
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/transfer-order/chess')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'transfer-order')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "isClientAffine": false,
+                "lockDuration": "PT30S",
+                "requiresSession": false,
+                "defaultMessageTimeToLive": "P14D",
+                "deadLetteringOnMessageExpiration": false,
+                "deadLetteringOnFilterEvaluationExceptions": false,
+                "maxDeliveryCount": 1,
+                "status": "Active",
+                "enableBatchedOperations": true,
+                "autoDeleteOnIdle": "P14D"
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/truecommerce-salesorder/hudson')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'truecommerce-salesorder')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "isClientAffine": false,
+                "lockDuration": "PT30S",
+                "requiresSession": false,
+                "defaultMessageTimeToLive": "P14D",
+                "deadLetteringOnMessageExpiration": false,
+                "deadLetteringOnFilterEvaluationExceptions": false,
+                "maxDeliveryCount": 1,
+                "status": "Active",
+                "enableBatchedOperations": true,
+                "autoDeleteOnIdle": "P14D"
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/truecommerce-salesorder/johnlewis')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'truecommerce-salesorder')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "isClientAffine": false,
+                "lockDuration": "PT30S",
+                "requiresSession": false,
+                "defaultMessageTimeToLive": "P14D",
+                "deadLetteringOnMessageExpiration": false,
+                "deadLetteringOnFilterEvaluationExceptions": false,
+                "maxDeliveryCount": 1,
+                "status": "Active",
+                "enableBatchedOperations": true,
+                "autoDeleteOnIdle": "P14D"
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/truecommerce-salestransaction/johnlewis')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'truecommerce-salestransaction')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "isClientAffine": false,
+                "lockDuration": "PT30S",
+                "requiresSession": false,
+                "defaultMessageTimeToLive": "P14D",
+                "deadLetteringOnMessageExpiration": false,
+                "deadLetteringOnFilterEvaluationExceptions": false,
+                "maxDeliveryCount": 1,
+                "status": "Active",
+                "enableBatchedOperations": true,
+                "autoDeleteOnIdle": "P14D"
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/truecommerce-salesorder/next')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'truecommerce-salesorder')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "isClientAffine": false,
+                "lockDuration": "PT30S",
+                "requiresSession": false,
+                "defaultMessageTimeToLive": "P14D",
+                "deadLetteringOnMessageExpiration": false,
+                "deadLetteringOnFilterEvaluationExceptions": false,
+                "maxDeliveryCount": 1,
+                "status": "Active",
+                "enableBatchedOperations": true,
+                "autoDeleteOnIdle": "P14D"
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/product/pfs')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'product')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "isClientAffine": false,
+                "lockDuration": "PT30S",
+                "requiresSession": false,
+                "defaultMessageTimeToLive": "P14D",
+                "deadLetteringOnMessageExpiration": false,
+                "deadLetteringOnFilterEvaluationExceptions": false,
+                "maxDeliveryCount": 1,
+                "status": "Active",
+                "enableBatchedOperations": true,
+                "autoDeleteOnIdle": "P14D"
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/return-order/pfs')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'return-order')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "isClientAffine": false,
+                "lockDuration": "PT30S",
+                "requiresSession": false,
+                "defaultMessageTimeToLive": "P14D",
+                "deadLetteringOnMessageExpiration": false,
+                "deadLetteringOnFilterEvaluationExceptions": false,
+                "maxDeliveryCount": 1,
+                "status": "Active",
+                "enableBatchedOperations": true,
+                "autoDeleteOnIdle": "P14D"
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/sales-order/pfs')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'sales-order')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "isClientAffine": false,
+                "lockDuration": "PT30S",
+                "requiresSession": false,
+                "defaultMessageTimeToLive": "P14D",
+                "deadLetteringOnMessageExpiration": false,
+                "deadLetteringOnFilterEvaluationExceptions": false,
+                "maxDeliveryCount": 1,
+                "status": "Active",
+                "enableBatchedOperations": true,
+                "autoDeleteOnIdle": "P14D"
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/transfer-order/pfs')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'transfer-order')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "isClientAffine": false,
+                "lockDuration": "PT30S",
+                "requiresSession": false,
+                "defaultMessageTimeToLive": "P14D",
+                "deadLetteringOnMessageExpiration": false,
+                "deadLetteringOnFilterEvaluationExceptions": false,
+                "maxDeliveryCount": 1,
+                "status": "Active",
+                "enableBatchedOperations": true,
+                "autoDeleteOnIdle": "P14D"
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/truecommerce-asn/truecommerce')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'truecommerce-asn')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "isClientAffine": false,
+                "lockDuration": "PT30S",
+                "requiresSession": false,
+                "defaultMessageTimeToLive": "P14D",
+                "deadLetteringOnMessageExpiration": false,
+                "deadLetteringOnFilterEvaluationExceptions": false,
+                "maxDeliveryCount": 1,
+                "status": "Active",
+                "enableBatchedOperations": true,
+                "autoDeleteOnIdle": "P14D"
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/truecommerce-inventory/truecommerce')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'truecommerce-inventory')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "isClientAffine": false,
+                "lockDuration": "PT30S",
+                "requiresSession": false,
+                "defaultMessageTimeToLive": "P14D",
+                "deadLetteringOnMessageExpiration": false,
+                "deadLetteringOnFilterEvaluationExceptions": false,
+                "maxDeliveryCount": 1,
+                "status": "Active",
+                "enableBatchedOperations": true,
+                "autoDeleteOnIdle": "P14D"
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/truecommerce-invoice/truecommerce')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'truecommerce-invoice')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "isClientAffine": false,
+                "lockDuration": "PT30S",
+                "requiresSession": false,
+                "defaultMessageTimeToLive": "P14D",
+                "deadLetteringOnMessageExpiration": false,
+                "deadLetteringOnFilterEvaluationExceptions": false,
+                "maxDeliveryCount": 1,
+                "status": "Active",
+                "enableBatchedOperations": true,
+                "autoDeleteOnIdle": "P14D"
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/truecommerce-purchase-order-ack/truecommerce')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'truecommerce-purchase-order-ack')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "isClientAffine": false,
+                "lockDuration": "PT30S",
+                "requiresSession": false,
+                "defaultMessageTimeToLive": "P14D",
+                "deadLetteringOnMessageExpiration": false,
+                "deadLetteringOnFilterEvaluationExceptions": false,
+                "maxDeliveryCount": 1,
+                "status": "Active",
+                "enableBatchedOperations": true,
+                "autoDeleteOnIdle": "P14D"
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/chess-adjustment/bc/$Default')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'chess-adjustment', 'bc')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'chess-adjustment')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "action": {},
+                "filterType": "SqlFilter",
+                "sqlFilter": {
+                    "sqlExpression": "1=1",
+                    "compatibilityLevel": 20
+                }
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/chess-receipt-conf/bc/$Default')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'chess-receipt-conf', 'bc')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'chess-receipt-conf')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "action": {},
+                "filterType": "SqlFilter",
+                "sqlFilter": {
+                    "sqlExpression": "1=1",
+                    "compatibilityLevel": 20
+                }
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/chess-reconciliation/bc/$Default')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'chess-reconciliation', 'bc')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'chess-reconciliation')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "action": {},
+                "filterType": "SqlFilter",
+                "sqlFilter": {
+                    "sqlExpression": "1=1",
+                    "compatibilityLevel": 20
+                }
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/chess-return-order-conf/bc/$Default')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'chess-return-order-conf', 'bc')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'chess-return-order-conf')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "action": {},
+                "filterType": "SqlFilter",
+                "sqlFilter": {
+                    "sqlExpression": "1=1",
+                    "compatibilityLevel": 20
+                }
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/chess-shipment-conf/bc/$Default')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'chess-shipment-conf', 'bc')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'chess-shipment-conf')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "action": {},
+                "filterType": "SqlFilter",
+                "sqlFilter": {
+                    "sqlExpression": "1=1",
+                    "compatibilityLevel": 20
+                }
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/chess-transfer-receipt-conf/bc/$Default')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'chess-transfer-receipt-conf', 'bc')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'chess-transfer-receipt-conf')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "action": {},
+                "filterType": "SqlFilter",
+                "sqlFilter": {
+                    "sqlExpression": "1=1",
+                    "compatibilityLevel": 20
+                }
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/chess-web-return-conf/bc/$Default')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'chess-web-return-conf', 'bc')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'chess-web-return-conf')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "action": {},
+                "filterType": "SqlFilter",
+                "sqlFilter": {
+                    "sqlExpression": "1=1",
+                    "compatibilityLevel": 20
+                }
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/product/chess/$Default')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'product', 'chess')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'product')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "action": {},
+                "filterType": "SqlFilter",
+                "sqlFilter": {
+                    "sqlExpression": "1=1",
+                    "compatibilityLevel": 20
+                }
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/product/pfs/$Default')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'product', 'pfs')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'product')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "action": {},
+                "filterType": "SqlFilter",
+                "sqlFilter": {
+                    "sqlExpression": "1=1",
+                    "compatibilityLevel": 20
+                }
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/return-order/chess/$Default')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'return-order', 'chess')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'return-order')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "action": {},
+                "filterType": "SqlFilter",
+                "sqlFilter": {
+                    "sqlExpression": "1=1",
+                    "compatibilityLevel": 20
+                }
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/return-order/pfs/$Default')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'return-order', 'pfs')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'return-order')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "action": {},
+                "filterType": "SqlFilter",
+                "sqlFilter": {
+                    "sqlExpression": "1=1",
+                    "compatibilityLevel": 20
+                }
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/sales-order/chess/$Default')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'sales-order', 'chess')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'sales-order')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "action": {},
+                "filterType": "SqlFilter",
+                "sqlFilter": {
+                    "sqlExpression": "1=1",
+                    "compatibilityLevel": 20
+                }
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/sales-order/pfs/$Default')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'sales-order', 'pfs')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'sales-order')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "action": {},
+                "filterType": "SqlFilter",
+                "sqlFilter": {
+                    "sqlExpression": "1=1",
+                    "compatibilityLevel": 20
+                }
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/transfer-order/chess/$Default')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'transfer-order', 'chess')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'transfer-order')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "action": {},
+                "filterType": "SqlFilter",
+                "sqlFilter": {
+                    "sqlExpression": "1=1",
+                    "compatibilityLevel": 20
+                }
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/transfer-order/pfs/$Default')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'transfer-order', 'pfs')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'transfer-order')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "action": {},
+                "filterType": "SqlFilter",
+                "sqlFilter": {
+                    "sqlExpression": "1=1",
+                    "compatibilityLevel": 20
+                }
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/truecommerce-asn/truecommerce/$Default')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'truecommerce-asn', 'truecommerce')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'truecommerce-asn')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "action": {},
+                "filterType": "SqlFilter",
+                "sqlFilter": {
+                    "sqlExpression": "1=1",
+                    "compatibilityLevel": 20
+                }
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/truecommerce-inventory/truecommerce/$Default')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'truecommerce-inventory', 'truecommerce')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'truecommerce-inventory')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "action": {},
+                "filterType": "SqlFilter",
+                "sqlFilter": {
+                    "sqlExpression": "1=1",
+                    "compatibilityLevel": 20
+                }
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/truecommerce-invoice/truecommerce/$Default')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'truecommerce-invoice', 'truecommerce')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'truecommerce-invoice')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "action": {},
+                "filterType": "SqlFilter",
+                "sqlFilter": {
+                    "sqlExpression": "1=1",
+                    "compatibilityLevel": 20
+                }
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/truecommerce-purchase-order-ack/truecommerce/$Default')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'truecommerce-purchase-order-ack', 'truecommerce')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'truecommerce-purchase-order-ack')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "action": {},
+                "filterType": "SqlFilter",
+                "sqlFilter": {
+                    "sqlExpression": "1=1",
+                    "compatibilityLevel": 20
+                }
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/truecommerce-salestransaction/amazon/$Default')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'truecommerce-salestransaction', 'amazon')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'truecommerce-salestransaction')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "action": {},
+                "filterType": "SqlFilter",
+                "sqlFilter": {
+                    "sqlExpression": "1=1",
+                    "compatibilityLevel": 20
+                }
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/truecommerce-salestransaction/johnlewis/$Default')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'truecommerce-salestransaction', 'johnlewis')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'truecommerce-salestransaction')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "action": {},
+                "filterType": "SqlFilter",
+                "sqlFilter": {
+                    "sqlExpression": "1=1",
+                    "compatibilityLevel": 20
+                }
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/truecommerce-salesorder/belk/Subscription')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'truecommerce-salesorder', 'belk')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'truecommerce-salesorder')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "action": {},
+                "filterType": "SqlFilter",
+                "sqlFilter": {
+                    "sqlExpression": "Subscription = 'BELK'",
+                    "compatibilityLevel": 20
+                }
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/truecommerce-salesorder/hudson/Subscription')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'truecommerce-salesorder', 'hudson')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'truecommerce-salesorder')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "action": {},
+                "filterType": "SqlFilter",
+                "sqlFilter": {
+                    "sqlExpression": "Subscription = 'HUDSON'",
+                    "compatibilityLevel": 20
+                }
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/truecommerce-salesorder/johnlewis/Subscription')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'truecommerce-salesorder', 'johnlewis')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'truecommerce-salesorder')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "action": {},
+                "filterType": "SqlFilter",
+                "sqlFilter": {
+                    "sqlExpression": "Subscription = 'JOHNLEWIS'",
+                    "compatibilityLevel": 20
+                }
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), '/truecommerce-salesorder/next/Subscription')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'truecommerce-salesorder', 'next')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'), 'truecommerce-salesorder')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_RCL_AISFW_UKS_SERVICEBUS_01_name'))]"
+            ],
+            "properties": {
+                "action": {},
+                "filterType": "SqlFilter",
+                "sqlFilter": {
+                    "sqlExpression": "Subscription = 'NEXT'",
+                    "compatibilityLevel": 20
+                }
+            }
+        }
+    ]
+}

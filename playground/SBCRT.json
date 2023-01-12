@@ -1,0 +1,60 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "namespaces_azsample_name": {
+            "defaultValue": "azsample",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.ServiceBus/namespaces",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[parameters('namespaces_azsample_name')]",
+            "location": "UK South",
+            "sku": {
+                "name": "Standard",
+                "tier": "Standard"
+            },
+            "properties": {
+                "minimumTlsVersion": "1.2",
+                "publicNetworkAccess": "Enabled",
+                "disableLocalAuth": false,
+                "zoneRedundant": false
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/authorizationrules",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_azsample_name'), '/RootManageSharedAccessKey')]",
+            "location": "uksouth",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_azsample_name'))]"
+            ],
+            "properties": {
+                "rights": [
+                    "Listen",
+                    "Manage",
+                    "Send"
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/networkRuleSets",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('namespaces_azsample_name'), '/default')]",
+            "location": "UK South",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_azsample_name'))]"
+            ],
+            "properties": {
+                "publicNetworkAccess": "Enabled",
+                "defaultAction": "Allow",
+                "virtualNetworkRules": [],
+                "ipRules": []
+            }
+        }
+    ]
+}

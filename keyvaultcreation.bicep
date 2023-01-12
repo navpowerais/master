@@ -38,6 +38,7 @@ param secretsPermissions array = [
 ])
 param skuName string = 'standard'
 
+
 var vaultname = '${prefix}${uniqueString(resourceGroup().id)}'
 
 resource kv 'Microsoft.KeyVault/vaults@2022-07-01' = {
@@ -154,4 +155,20 @@ resource kv 'Microsoft.KeyVault/vaults@2022-07-01' = {
   }
 }
 
+
+
 output vaultname string = kv.name
+
+
+//Key vault secret set
+@description('Specifies all secrets {"secretName":"","secretValue":""} wrapped in a secure object.')
+@secure()
+param secretsObject object
+
+resource secrets 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = [for secret in secretsObject.secrets: {
+  name: secret.secretName
+  parent: kv
+  properties: {
+    value: secret.secretValue
+  }
+}]
