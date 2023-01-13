@@ -9,7 +9,7 @@
         "value": "${prefix}${uniqueString(resourceGroup().id)}"
       },
       "location":{
-        "value": "resourceGroup().location"
+        "value": "East US"
       },
       "SBUSauthrulename":{
         "value": "${prefix}rule${uniqueString(resourceGroup().id)}"

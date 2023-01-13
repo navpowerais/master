@@ -46,6 +46,8 @@ resource SBUS 'Microsoft.ServiceBus/namespaces@2022-01-01-preview' = {
   }
 }
 
+output SBUS string = SBUS.name
+
 resource SBUSauthrule 'Microsoft.ServiceBus/namespaces/authorizationrules@2022-01-01-preview' = {
   parent: SBUS
   name: '$SBUSauthrulename'
@@ -55,6 +57,8 @@ resource SBUSauthrule 'Microsoft.ServiceBus/namespaces/authorizationrules@2022-0
     ]
   }
 }
+
+output authrule string = SBUSauthrule.properties.rights[0]
 
 resource SBUSTopicname 'Microsoft.ServiceBus/namespaces/topics@2022-01-01-preview' = {
   parent: SBUS
@@ -73,6 +77,9 @@ resource SBUSTopicname 'Microsoft.ServiceBus/namespaces/topics@2022-01-01-previe
     enableExpress: false
   }
 }
+
+output SBUSTopicname string = SBUSTopicname.name
+
 
 resource SBUSTopicSubscriptionname 'Microsoft.ServiceBus/namespaces/topics/subscriptions@2022-01-01-preview' = {
   parent: SBUSTopicname
@@ -94,6 +101,8 @@ resource SBUSTopicSubscriptionname 'Microsoft.ServiceBus/namespaces/topics/subsc
   ]
 }
 
+output SBUSTopicSubscriptionname string = SBUSTopicSubscriptionname.name
+
 resource subrule 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rules@2022-01-01-preview' = {
   parent: SBUSTopicSubscriptionname
   name: '$sbfilter'
@@ -112,4 +121,3 @@ resource subrule 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rules@202
 
   ]
 }
-
