@@ -32,7 +32,8 @@ param TopicName string= 'sampletopic'
 param SubscriptionName string= 'samplesub'*/
 
 resource SBUS 'Microsoft.ServiceBus/namespaces@2022-01-01-preview' = {
-  name: '$ServiceBusNameSpace'
+  //name: '$ServiceBusNameSpace'
+  name: 'samplecheck'
   location: location
   sku: {
     name: 'Standard'
@@ -50,7 +51,8 @@ output SBUS string = SBUS.name
 
 resource SBUSauthrule 'Microsoft.ServiceBus/namespaces/authorizationrules@2022-01-01-preview' = {
   parent: SBUS
-  name: '$SBUSauthrulename'
+  //name: '$SBUSauthrulename'
+  name: 'sampleauthrule'
   properties: {
     rights: [
       'Send'
@@ -58,11 +60,12 @@ resource SBUSauthrule 'Microsoft.ServiceBus/namespaces/authorizationrules@2022-0
   }
 }
 
-output authrule string = SBUSauthrule.properties.rights[0]
+output authrulesas string = SBUSauthrule.listKeys().primaryKey
 
 resource SBUSTopicname 'Microsoft.ServiceBus/namespaces/topics@2022-01-01-preview' = {
   parent: SBUS
-  name: TopicName
+  //name: '$TopicName'
+  name: 'sampletopic'
   properties:{
     maxMessageSizeInKilobytes: 256
     defaultMessageTimeToLive: 'P14D'
@@ -83,7 +86,8 @@ output SBUSTopicname string = SBUSTopicname.name
 
 resource SBUSTopicSubscriptionname 'Microsoft.ServiceBus/namespaces/topics/subscriptions@2022-01-01-preview' = {
   parent: SBUSTopicname
-  name: SubscriptionName
+  //name: '$SubscriptionName'
+  name: 'samplesubscription'
   properties: {
     isClientAffine: false
     lockDuration: 'PT30S'
@@ -106,6 +110,7 @@ output SBUSTopicSubscriptionname string = SBUSTopicSubscriptionname.name
 resource subrule 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rules@2022-01-01-preview' = {
   parent: SBUSTopicSubscriptionname
   name: '$sbfilter'
+  //name: 'samplefilter'
   properties: {
     action: {
     }
