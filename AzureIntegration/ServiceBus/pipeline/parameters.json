@@ -1,27 +1,24 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "prefix":{
+      "prefix":{
         "value": "ais"
-        },
-        "ServiceBusNameSpace": {
-          "value": "aisc6ejnh2dsmkni"
-        },
-        "location":{
-          "value": "East US"
-        },
-        "SBUSauthrulename":{
-          "value": "aisc6ejnh2dsmknirule"
-        },
-        "TopicName": {
-          "value": "aisc6ejnh2dsmknitpc"
-        },
-        "SubscriptionName": {
-          "value": "aisc6ejnh2dsmknisub"
-        },
-        "sbfilter":{
-          "value": "aisc6ejnh2dsmknifltr"
-        }
+      },
+      "ServiceBusNameSpace": {
+        "value": "${prefix}${uniqueString(resourceGroup().id)}"
+      },
+      "SBUSauthrulename":{
+        "value": "${prefix}rule${uniqueString(resourceGroup().id)}"
+      },
+      "TopicName": {
+        "value": "${prefix}topic${uniqueString(resourceGroup().id)}"
+      },
+      "SubscriptionName": {
+        "value": "${prefix}subscription${uniqueString(resourceGroup().id)}"
+      },
+      "sbfilter":{
+        "value": "${prefix}filter${uniqueString(resourceGroup().id)}"
+      }
     }
   }
