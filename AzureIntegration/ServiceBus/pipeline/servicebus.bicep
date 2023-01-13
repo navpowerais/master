@@ -1,15 +1,11 @@
-@description('Naming the specific keyvault')
-@minLength(3)
-@maxLength(12)
-param prefix string
+
 
 @description('ServiceBusNameSpace')
 param ServiceBusNameSpace string 
 //param ServiceBusNameSpace string = '${prefix}${uniqueString(resourceGroup().id)}'
 
 @description('location of the resource group')
-param location string 
-//param location string = resourceGroup().location
+param location string = resourceGroup().location
 
 @description('Access polocies')
 param SBUSauthrulename string
@@ -32,8 +28,7 @@ param TopicName string= 'sampletopic'
 param SubscriptionName string= 'samplesub'*/
 
 resource SBUS 'Microsoft.ServiceBus/namespaces@2022-01-01-preview' = {
-  //name: '$ServiceBusNameSpace'
-  name: 'samplecheck'
+  name: '${ServiceBusNameSpace}'
   location: location
   sku: {
     name: 'Standard'
@@ -51,8 +46,7 @@ output SBUS string = SBUS.name
 
 resource SBUSauthrule 'Microsoft.ServiceBus/namespaces/authorizationrules@2022-01-01-preview' = {
   parent: SBUS
-  //name: '$SBUSauthrulename'
-  name: 'sampleauthrule'
+  name: '${SBUSauthrulename}'
   properties: {
     rights: [
       'Send'
@@ -64,8 +58,7 @@ output authrulesas string = SBUSauthrule.listKeys().primaryKey
 
 resource SBUSTopicname 'Microsoft.ServiceBus/namespaces/topics@2022-01-01-preview' = {
   parent: SBUS
-  //name: '$TopicName'
-  name: 'sampletopic'
+  name: '${TopicName}'
   properties:{
     maxMessageSizeInKilobytes: 256
     defaultMessageTimeToLive: 'P14D'
@@ -86,8 +79,7 @@ output SBUSTopicname string = SBUSTopicname.name
 
 resource SBUSTopicSubscriptionname 'Microsoft.ServiceBus/namespaces/topics/subscriptions@2022-01-01-preview' = {
   parent: SBUSTopicname
-  //name: '$SubscriptionName'
-  name: 'samplesubscription'
+  name: '${SubscriptionName}'
   properties: {
     isClientAffine: false
     lockDuration: 'PT30S'
@@ -109,8 +101,7 @@ output SBUSTopicSubscriptionname string = SBUSTopicSubscriptionname.name
 
 resource subrule 'Microsoft.ServiceBus/namespaces/topics/subscriptions/rules@2022-01-01-preview' = {
   parent: SBUSTopicSubscriptionname
-  name: '$sbfilter'
-  //name: 'samplefilter'
+  name: '${sbfilter}'
   properties: {
     action: {
     }
