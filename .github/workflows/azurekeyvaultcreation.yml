@@ -44,7 +44,7 @@ jobs:
         azcliversion: 2.44.0
         inlineScript: |
           az version
-          az group show --name 
+          az group show --name $AZ_RG_NM
           az deployment group show -g $AZ_RG_NM -n $DEPLOYMENT_NAME
           
           
