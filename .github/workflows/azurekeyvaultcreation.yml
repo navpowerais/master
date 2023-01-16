@@ -13,7 +13,8 @@ on:
 env:
   # ARM deployment instance name (used to extract outputs)
   DEPLOYMENT_NAME: GH_CICD_${{ github.run_id }}
-  Bicep_path: "/master/main/AzureIntegration/KeyVault/pipeline/keyvaultcreation.bicep"
+  Bicep_path: "/master/AzureIntegration/KeyVault/pipeline/keyvaultcreation.bicep"
+  parameters_path: "/master/AzureIntegration/KeyVault/pipeline/parameters.json"
   AZ_OBJECT_ID: ${{ secrets.AZ_OBJECT_ID}}
   AZ_RG_NM: ${{ secrets.AZ_RG_NM}}
   AZ_RGS_NM: "azintegration"
@@ -53,8 +54,8 @@ jobs:
       with:
         subscription: ${{secrets.AZ_SUBSCRIPTION_ID}}
         resourceGroup: ${{secrets.AZ_RG_NM}}
-        templateFile: ./keyvaultcreation.bicep
-        additionalParameters: ./parameters.json
+        templateFile: ${{ env.bicepfilePath}}
+        additionalParameters: ${{ env.parameters_path}}
           #az deployment group what-if --mode Incremental --parameters @parameters.json --resource-group $RESOURCE_GROUP --template-file $Bicep_path
           
     #needs : build-and-deploy
