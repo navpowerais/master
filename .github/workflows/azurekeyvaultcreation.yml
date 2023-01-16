@@ -45,7 +45,7 @@ jobs:
         inlineScript: |
           az version
           az group show --name 
-          az deployment group show -g $AZ_RG_NM -n keyvaultcreation
+          az deployment group show -g $AZ_RG_NM -n $DEPLOYMENT_NAME
           
           
     - name: Keyvault bicep check
