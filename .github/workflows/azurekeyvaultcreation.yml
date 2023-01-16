@@ -9,8 +9,7 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
-  paths-ignore:
-      - '**/**.md'
+
 env:
   # ARM deployment instance name (used to extract outputs)
   DEPLOYMENT_NAME: GH_CICD_${{ github.run_id }}
@@ -47,7 +46,6 @@ jobs:
           az version
           az group show --name $AZ_RG_NM
           
-
     - name: Keyvault bicep check
       uses: azure/deployment-what-if-action@v1.0.0
       with:
@@ -57,18 +55,6 @@ jobs:
         additionalParameters: ./parameters.json
           #az deployment group what-if --mode Incremental --parameters @parameters.json --resource-group $RESOURCE_GROUP --template-file $Bicep_path
           
-  deploy: 
-    runs-on: ubuntu-latest
-    needs : [build-and-validate]
-    steps:
-    - uses: actions/checkout@v3
-
-    # Log into Azure
-    - name: Login to Azure
-      uses: azure/login@v1
-      with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
     #needs : build-and-deploy
       # Deploy Bicep file
       #az deployment group create --name $DEPLOYMENT_NAME --resource-group $RESOURCE_GROUP --template-file ./keyvaultcreation.bicep --parameters @parameters.json
