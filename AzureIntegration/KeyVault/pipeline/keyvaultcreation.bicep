@@ -3,6 +3,9 @@
 @maxLength(12)
 param prefix string
 
+@description('Deployment Name (parent and chid deployment process)')
+param deploymentid string = '0000000000'
+
 @description('Specifies the Azure location where the key vault should be created.')
 param location string = resourceGroup().location
 

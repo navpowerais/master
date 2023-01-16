@@ -3,7 +3,8 @@
 @maxLength(12)
 param prefix string = 'RDLY'
 
-
+@description('Deployment Name (parent and chid deployment process)')
+param deploymentid string = '0000000000'
 
 /*module parms 'servicebus.bicep' = {
   name: 'parameters'

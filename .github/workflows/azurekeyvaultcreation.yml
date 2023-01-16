@@ -27,12 +27,13 @@ env:
   actions: write
 
 jobs:
-  build-and-validate:
+  build-and-checkout:
     runs-on: ubuntu-latest
     steps:
     # Checkout code
     - uses: actions/checkout@v3
 
+  Azure-Login:
     # Log into Azure
     - name: Login to Azure
       uses: azure/login@v1
@@ -45,9 +46,9 @@ jobs:
         azcliversion: 2.44.0
         inlineScript: |
           az version
-          az group show --name $AZ_RG_NM
+          az deployment group show -g $AZ_RG_NM -n keycheck
           
-
+  Validate the Bicep:
     - name: Keyvault bicep check
       uses: azure/deployment-what-if-action@v1.0.0
       with:
@@ -58,17 +59,6 @@ jobs:
           #az deployment group what-if --mode Incremental --parameters @parameters.json --resource-group $RESOURCE_GROUP --template-file $Bicep_path
           
   deploy: 
-    runs-on: ubuntu-latest
-    needs : [build-and-validate]
-    steps:
-    - uses: actions/checkout@v3
-
-    # Log into Azure
-    - name: Login to Azure
-      uses: azure/login@v1
-      with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
     #needs : build-and-deploy
       # Deploy Bicep file
       #az deployment group create --name $DEPLOYMENT_NAME --resource-group $RESOURCE_GROUP --template-file ./keyvaultcreation.bicep --parameters @parameters.json
