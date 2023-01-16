@@ -10,7 +10,6 @@ param location string = resourceGroup().location
 @description('Access polocies')
 param SBUSauthrulename string
 
-
 @description('Name of the Topic Name')
 param TopicName string
 

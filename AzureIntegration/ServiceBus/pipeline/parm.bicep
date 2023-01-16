@@ -1,12 +1,13 @@
 @description('Naming the specific keyvault')
 @minLength(3)
 @maxLength(12)
-param prefix string
+param prefix string = 'RDLY'
 
-module parms 'servicebus.bicep' = {
+
+
+/*module parms 'servicebus.bicep' = {
   name: 'parameters'
   params: {
-    prefix: 'RDLY'
     ServiceBusNameSpace: '${prefix}SBUS${uniqueString(resourceGroup().id)}'
     location: resourceGroup().location
     SBUSauthrulename: 'aisc6ejnh2dsmknirule'
@@ -15,4 +16,18 @@ module parms 'servicebus.bicep' = {
     sbfilter: 'aisc6ejnh2dsmknifltr'
   } 
   
+}*/
+
+module parms 'servicebus.bicep' = {
+  name: 'parameters'
+  params: {
+    ServiceBusNameSpace: '${prefix}SBUS${uniqueString(resourceGroup().id)}'
+    location: resourceGroup().location
+    SBUSauthrulename: '${prefix}Access${uniqueString(resourceGroup().id)}'
+    TopicName: 'aisc6ejnh2dsmknitpc'
+    SubscriptionName: 'aisc6ejnh2dsmknisub'
+    sbfilter: 'aisc6ejnh2dsmknifltr'
+  } 
+  
 }
+
