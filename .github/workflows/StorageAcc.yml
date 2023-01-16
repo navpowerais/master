@@ -1,6 +1,6 @@
 
-# This Workflow will create the Azure Keyvault
-name: keyvaultcreation
+# This Workflow will create the Azure StorageAccountCreation
+name: StorageAccount
 # Controls when the workflow will run
 on:
   # Allows you to run this workflow manually from the Actions tab

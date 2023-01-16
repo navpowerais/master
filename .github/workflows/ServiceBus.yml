@@ -1,5 +1,5 @@
-# This Workflow will create the Azure Keyvault
-name: keyvaultcreation
+# This Workflow will create the Azure ServiceBus
+name: ServiceBus
 # Controls when the workflow will run
 on:
   # Allows you to run this workflow manually from the Actions tab
