@@ -51,8 +51,8 @@ jobs:
       with:
         subscription: ${{secrets.AZ_SUBSCRIPTION_ID}}
         resourceGroup: ${{secrets.AZ_RG_NM}}
-        templateFile: ./keyvaultcreation.bicep
-        additionalParameters: ./parameters.json
+        templateFile: $(outputFilePath)\keyvaultcreation.bicep
+        additionalParameters: $(outputFilePath)\parameters.json
           #az deployment group what-if --mode Incremental --parameters @parameters.json --resource-group $RESOURCE_GROUP --template-file $Bicep_path
           
     #needs : build-and-deploy
