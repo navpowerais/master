@@ -44,9 +44,7 @@ jobs:
         azcliversion: 2.44.0
         inlineScript: |
           az version
-          az group show --name $AZ_RG_NM
-          az deployment group show -g $AZ_RG_NM -n $DEPLOYMENT_NAME
-          
+          az group show --name $AZ_RG_NM          
           
     - name: Keyvault bicep check
       uses: azure/deployment-what-if-action@v1.0.0
