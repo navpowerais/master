@@ -24,9 +24,9 @@ jobs:
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ steps.set_varaibles.outputs.tag }}
-          release_name: v${{ steps.set_varaibles.outputs.tag }}
-          body: ${{ github.event.head_commit.message }}
-          draft: true
-          prerelease: false
+        #with:
+         # tag_name: ${{ steps.set_varaibles.outputs.tag }}
+          #release_name: v${{ steps.set_varaibles.outputs.tag }}
+          #body: ${{ github.event.head_commit.message }}
+          #draft: true
+          #prerelease: false
