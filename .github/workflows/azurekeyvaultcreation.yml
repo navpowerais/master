@@ -26,7 +26,7 @@ env:
   actions: write
 
 jobs:
-  build-and-validate:
+  build-and-Deploy-Dev:
     runs-on: ubuntu-latest
     steps:
     # Checkout code
@@ -44,7 +44,9 @@ jobs:
         azcliversion: 2.44.0
         inlineScript: |
           az version
-          az group show --name $AZ_RG_NM
+          az group show --name 
+          az deployment group show -g $AZ_RG_NM -n keyvaultcreation
+          
           
     - name: Keyvault bicep check
       uses: azure/deployment-what-if-action@v1.0.0
