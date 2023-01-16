@@ -55,7 +55,7 @@ jobs:
         templateFile: ./keyvaultcreation.bicep
         additionalParameters: ./parameters.json
           #az deployment group what-if --mode Incremental --parameters @parameters.json --resource-group $RESOURCE_GROUP --template-file $Bicep_path
-          #az group deployment list --resource-group $AZ_RG_NM
+          
   deploy: 
     runs-on: ubuntu-latest
     needs : [build-and-validate]
