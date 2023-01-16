@@ -7,13 +7,13 @@ param prefix string
 param location string = resourceGroup().location
 
 @description('Specifies whether Azure Virtual Machines are permitted to retrieve certificates stored as secrets from the key vault.')
-param enabledForDeployment bool = false
+param enabledForDeployment bool = true
 
 @description('Specifies whether Azure Disk Encryption is permitted to retrieve secrets from the vault and unwrap keys.')
-param enabledForDiskEncryption bool = false
+param enabledForDiskEncryption bool = true
 
 @description('Specifies whether Azure Resource Manager is permitted to retrieve secrets from the key vault.')
-param enabledForTemplateDeployment bool = false
+param enabledForTemplateDeployment bool = true
 
 @description('Specifies the Azure Active Directory tenant ID that should be used for authenticating requests to the key vault. Get it by using Get-AzSubscription cmdlet.')
 param tenantId string = subscription().tenantId
@@ -44,9 +44,9 @@ resource kv 'Microsoft.KeyVault/vaults@2022-07-01' = {
   name:vaultname
   location:location
   properties: {
-    enabledForDeployment: true
-    enabledForDiskEncryption: true
-    enabledForTemplateDeployment: true
+    enabledForDeployment: enabledForDeployment
+    enabledForDiskEncryption: enabledForDiskEncryption
+    enabledForTemplateDeployment: enabledForTemplateDeployment
     enableSoftDelete: true
     enableRbacAuthorization: true
     softDeleteRetentionInDays: 90
@@ -61,44 +61,13 @@ resource kv 'Microsoft.KeyVault/vaults@2022-07-01' = {
         tenantId: tenantId
         permissions: {
           keys: [
-            'Get'
-            'List'
-            'Update'
-            'Create'
-            'Import'
-            'Delete'
-            'Recover'
-            'Backup'
-            'Restore'
-            'GetRotationPolicy'
-            'SetRotationPolicy'
-            'Rotate'
+            'all'
           ]
           secrets: [
-            'Get'
-            'List'
-            'Set'
-            'Delete'
-            'Recover'
-            'Backup'
-            'Restore'
+            'all'
           ]
           certificates: [
-            'Get'
-            'List'
-            'Update'
-            'Create'
-            'Import'
-            'Delete'
-            'Recover'
-            'Backup'
-            'Restore'
-            'ManageContacts'
-            'ManageIssuers'
-            'GetIssuers'
-            'ListIssuers'
-            'SetIssuers'
-            'DeleteIssuers'
+            'all'
           ]
         }
       }
@@ -107,44 +76,13 @@ resource kv 'Microsoft.KeyVault/vaults@2022-07-01' = {
         objectId: objectId
         permissions: {
           certificates: [
-            'Get'
-            'List'
-            'Update'
-            'Create'
-            'Import'
-            'Delete'
-            'Recover'
-            'Backup'
-            'Restore'
-            'ManageContacts'
-            'ManageIssuers'
-            'GetIssuers'
-            'ListIssuers'
-            'SetIssuers'
-            'DeleteIssuers'
+            'all'
           ]
           keys: [
-            'Get'
-            'List'
-            'Update'
-            'Create'
-            'Import'
-            'Delete'
-            'Recover'
-            'Backup'
-            'Restore'
-            'GetRotationPolicy'
-            'SetRotationPolicy'
-            'Rotate'
+            'all'
           ]
           secrets: [
-            'Get'
-            'List'
-            'Set'
-            'Delete'
-            'Recover'
-            'Backup'
-            'Restore'
+            'all'
           ]
         }
       }
