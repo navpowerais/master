@@ -65,10 +65,11 @@ jobs:
       id: step_two
       run: |
         echo "${{env.parameters_path}}"
-          #az deployment group what-if --mode Incremental --parameters @parameters.json --resource-group $RESOURCE_GROUP --template-file $Bicep_path
+          
           
     #needs : build-and-deploy
       # Deploy Bicep file
+      #az deployment group what-if --mode Incremental --parameters @parameters.json --resource-group $RESOURCE_GROUP --template-file $Bicep_path
       #az deployment group create --name $DEPLOYMENT_NAME --resource-group $RESOURCE_GROUP --template-file ./keyvaultcreation.bicep --parameters @parameters.json
     - name: Deploy Keyvault Bicep
       run: |
