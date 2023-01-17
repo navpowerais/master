@@ -56,6 +56,15 @@ jobs:
         resourceGroup: ${{secrets.AZ_RG_NM}}
         templateFile: ${{ env.bicepfilePath}}
         additionalParameters: ${{ env.parameters_path}}
+
+    - name: path check
+      id: step_one
+      run: |
+        echo "${{ env.bicepfilePath }}"
+    - name: path_validate 
+      id: step_two
+      run: |
+        echo "${{env.parameters_path}}"
           #az deployment group what-if --mode Incremental --parameters @parameters.json --resource-group $RESOURCE_GROUP --template-file $Bicep_path
           
     #needs : build-and-deploy
