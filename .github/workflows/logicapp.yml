@@ -42,8 +42,17 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y bicep
+        
+    - name: create & check the RG
+      uses: Azure/cli@v1.0.6
+      with:
+        azcliversion: 2.44.0
+        inlineScript: |
+          az version
+          az group show --name $AZ_RG_NM
+          echo $outputFilePath
 
     - name: Deploy Logic App
       uses: azure/bicep@0.1.3
       with:
-        args: deploy -n mylogicapp -g myresourcegroup -f main.bicep
+        args: deploy -n samplelogicapp -g $AZ_RG_NM -f logicapp.bicep
