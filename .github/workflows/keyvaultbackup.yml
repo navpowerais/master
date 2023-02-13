@@ -1,0 +1,88 @@
+# This Workflow will create the Azure Keyvault
+name: keyvaultcreation
+# Controls when the workflow will run
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "master","dev","main" ]
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  # ARM deployment instance name (used to extract outputs)
+  DEPLOYMENT_NAME: GH_CICD_${{ github.run_id }}
+  Bicep_path: "/master/AzureIntegration/KeyVault/pipeline/keyvaultcreation.bicep"
+  parameters_path: "/master/AzureIntegration/KeyVault/pipeline/parameters.json"
+  AZ_OBJECT_ID: ${{ secrets.AZ_OBJECT_ID}}
+  AZ_RG_NM: ${{ secrets.AZ_RG_NM}}
+  AZ_RGS_NM: "azintegration"
+  outputFilePath: "/master/main/AzureIntegration/KeyVault/pipeline/"
+  # Setting Github what permissions this workflow needs
+  permissions: 
+  id-token: write
+  contents: read
+  deployments: read
+  actions: write
+
+jobs:
+  build-and-Deploy-Dev:
+    runs-on: ubuntu-latest
+    steps:
+    # Checkout code
+    - uses: actions/checkout@v3
+
+    # Log into Azure
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: create & check the RG
+      uses: Azure/cli@v1.0.6
+      with:
+        azcliversion: 2.44.0
+        inlineScript: |
+          az version
+          az group show --name $AZ_RG_NM
+          echo $outputFilePath
+    
+          
+    - name: Keyvault bicep check
+      uses: azure/deployment-what-if-action@v1.0.0
+      with:
+        subscription: ${{secrets.AZ_SUBSCRIPTION_ID}}
+        resourceGroup: ${{secrets.AZ_RG_NM}}
+        templateFile: ${{ env.bicepfilePath}}
+        additionalParameters: ${{ env.parameters_path}}
+
+    - name: path check
+      id: step_one
+      run: |
+        echo "${{ env.bicepfilePath }}"
+    - name: path_validate 
+      id: step_two
+      run: |
+        echo "${{env.parameters_path}}"
+          
+          
+    #needs : build-and-deploy
+      # Deploy Bicep file
+      #az deployment group what-if --mode Incremental --parameters @parameters.json --resource-group $RESOURCE_GROUP --template-file $Bicep_path
+      #az deployment group create --name $DEPLOYMENT_NAME --resource-group $RESOURCE_GROUP --template-file ./keyvaultcreation.bicep --parameters @parameters.json
+    - name: Deploy Keyvault Bicep
+      run: |
+        az deployment group create --name $DEPLOYMENT_NAME --resource-group $AZ_RG_NM --template-file ./keyvaultcreation.bicep --parameters @parameters.json
+      env:
+        DEPLOYMENT_NAME: ${{ env.DEPLOYMENT_NAME }}
+        DEPLOYMENT_NAME_ID: ${{ github.run_id }}
+        RESOURCE_GROUP: ${{secrets.AZ_AIS_RG}}
+        subscriptionId: ${{secrets.AZ_SUBSCRIPTION_ID}}
+        bicepBicep_path: ${{  env.bicepfilePath }}
+        outputFilePath: ./output.json
+        
+      # Extract deployment output
+    - name: deploymentlogs
+      run: |
+        echo "Keyvault_LOGS=$(az deployment group show --name ${{ env.DEPLOYMENT_NAME }} --resource-group ${{ env.AZ_RG_NM}} --output tsv)" >> $GITHUB_WORKSPACE/output.json
