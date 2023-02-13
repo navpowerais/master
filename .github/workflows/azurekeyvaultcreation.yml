@@ -38,6 +38,11 @@ jobs:
       uses: azure/login@v1
       with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+          
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y bicep
 
     - name: create & check the RG
       uses: Azure/cli@v1.0.6
