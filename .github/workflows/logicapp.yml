@@ -1,15 +1,29 @@
 name: Deploy Logic App
 
 on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    branches:
-      - main
+    branches: [ "master","dev","main" ]
+  pull_request:
+    branches: [ "master" ]
 
 env:
-  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+  Bicep_path: "/master/AzureIntegration/KeyVault/pipeline/logicappcreation.bicep"
+  parameters_path: "/master/AzureIntegration/KeyVault/pipeline/parameters.json"
+  outputFilePath: "/master/main/AzureIntegration/KeyVault/pipeline/"
+  DEPLOYMENT_NAME: GH_CICD_${{ github.run_id }}
+  AZ_OBJECT_ID: ${{ secrets.AZ_OBJECT_ID}}
+  AZ_RG_NM: ${{ secrets.AZ_RG_NM}}
+  AZ_RGS_NM: "azintegration"
+
+  # Setting Github what permissions this workflow needs
+  permissions:
+  id-token: write
+  contents: read
+  deployments: read
+  actions: write
 
 jobs:
   deploy:
@@ -17,12 +31,12 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Login to Azure
       uses: azure/login@v1
       with:
-        creds: ${{ env.ARM_CLIENT_ID }}/${{ env.ARM_TENANT_ID }}/${{ env.ARM_CLIENT_SECRET }}
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Install dependencies
       run: |
